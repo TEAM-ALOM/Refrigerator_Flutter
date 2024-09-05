@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:refrigerator_frontend/add_ingredients.dart';
+import 'package:refrigerator_frontend/colos.dart';
+import 'package:refrigerator_frontend/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,11 +15,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ExpansionTile Example',
+      title: '냉장고의 꿈',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: background, // 전체 배경 색 설정
+        textTheme: GoogleFonts.interTextTheme(
+            Theme.of(context).textTheme), // 전체 폰트 설정(Inter)
       ),
-      home: AddIngredientsScreen(), // 사용: ExpansionTileDemo 위젯을 사용
-      );
+      home: const HomeScreen(), // 사용: ExpansionTileDemo 위젯을 사용
+    );
   }
 }
