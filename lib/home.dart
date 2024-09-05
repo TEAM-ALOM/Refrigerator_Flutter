@@ -22,41 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.track_changes_outlined,
-              size: 25,
-              color: iconColor,
-            ),
-            onPressed: () {},
-          ),
-          title: Image.asset(
-            'assets/images/logo.png',
-            width: 137,
-            height: 137,
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.add,
-                size: 30,
-                color: iconColor,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          AddIngredientsScreen()),
-                );
-              },
-            ),
-          ],
-          backgroundColor: background,
-          elevation: 0.5,
-          shadowColor: HexColor('#E3E3E3'),
-        ),
         body: TabBarView(
           // 각 탭별 페이지
           children: [
@@ -133,48 +98,84 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '나의 냉장고',
-            style: TextStyle(
-              color: HexColor('#303030'),
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.track_changes_outlined,
+            size: 25,
+            color: iconColor,
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 24.0),
-            child: Text(
-              '${today.month}월 ${today.day}일 ${weekdays[today.weekday]}', // 오늘 날짜 표시
-              style: TextStyle(
-                color: HexColor('#303030'),
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+          onPressed: () {},
+        ),
+        title: Image.asset(
+          'assets/images/logo.png',
+          width: 137,
+          height: 137,
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.add,
+              size: 30,
+              color: iconColor,
             ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              //재료 아이템 표시
-              padding: EdgeInsets.zero,
-              scrollDirection: Axis.vertical,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                mainAxisSpacing: 30,
-                crossAxisSpacing: 20,
-                childAspectRatio: 1,
-              ),
-              itemCount: ingredient_cnt,
-              itemBuilder: (context, index) {
-                return const _buildIngredientCard(); // 카드 빌드해서 리턴
-              },
-            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => AddIngredientsScreen()),
+              );
+            },
           ),
         ],
+        backgroundColor: background,
+        elevation: 0.5,
+        shadowColor: HexColor('#E3E3E3'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '나의 냉장고',
+              style: TextStyle(
+                color: HexColor('#303030'),
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 24.0),
+              child: Text(
+                '${today.month}월 ${today.day}일 ${weekdays[today.weekday]}', // 오늘 날짜 표시
+                style: TextStyle(
+                  color: HexColor('#303030'),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Expanded(
+              child: GridView.builder(
+                //재료 아이템 표시
+                padding: EdgeInsets.zero,
+                scrollDirection: Axis.vertical,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 30,
+                  crossAxisSpacing: 20,
+                  childAspectRatio: 1,
+                ),
+                itemCount: ingredient_cnt,
+                itemBuilder: (context, index) {
+                  return const _buildIngredientCard(); // 카드 빌드해서 리턴
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
