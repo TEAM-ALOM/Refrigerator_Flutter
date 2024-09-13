@@ -139,7 +139,7 @@ class Home extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '나의 냉장고',
+              '재희의 냉장고',
               style: TextStyle(
                 color: HexColor('#303030'),
                 fontSize: 15,
