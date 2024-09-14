@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const Center(
               child: Search(),
             ),
-            const Center(
+            Center(
               child: BookMarkScreen(),
             ),
           ],
