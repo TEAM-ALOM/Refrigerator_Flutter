@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:refrigerator_frontend/add_ingredients.dart';
+import 'package:refrigerator_frontend/book_mark.dart';
 import 'package:refrigerator_frontend/cards.dart';
 import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/screens/search.dart';
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Search(),
             ),
             const Center(
-              child: Text("favorites"),
+              child: BookMarkScreen(),
             ),
           ],
         ),
