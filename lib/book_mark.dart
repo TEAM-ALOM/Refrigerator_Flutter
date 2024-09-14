@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import 'colos.dart';
+import 'colors.dart';
 
 class BookMarkScreen extends StatefulWidget {
   const BookMarkScreen({super.key});
@@ -20,7 +20,7 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false, // 뒤로가기 버튼 제거
         centerTitle: true, // 텍스트를 가운데 정렬
-        title: Text('즐겨찾기'),
+        title: const Text('즐겨찾기'),
         backgroundColor: background,
         elevation: 0.5,
         shadowColor: HexColor('#E3E3E3'),
@@ -37,7 +37,7 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
                 child: Row(
                   children: [
                     // 왼쪽 이미지
-                    Container(
+                    SizedBox(
                       width: 100,
                       height: 100,
                       child: Image.asset(
@@ -58,15 +58,15 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
                                 children: [
                                   Text(
                                     '돼지고기 김치볶음 ${index + 1}', // 글씨 표시
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 4),
+                                  const SizedBox(height: 4),
                                   Text(
                                     '조리시간: ${index + 1}분', // 부가 설명
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey,
                                     ),
@@ -76,7 +76,7 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
                             ),
                             // 삭제 버튼
                             IconButton(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.delete, // 기본 삭제 아이콘
                                 size: 24,
                                 color: Colors.grey, // 삭제 버튼 색상

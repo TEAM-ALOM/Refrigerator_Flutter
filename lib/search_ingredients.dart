@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import 'colos.dart';
+import 'colors.dart';
 
 class SearchIngredientsScreen extends StatefulWidget {
+  const SearchIngredientsScreen({super.key});
+
   @override
-  _SearchIngredientsScreenState createState() => _SearchIngredientsScreenState();
+  _SearchIngredientsScreenState createState() =>
+      _SearchIngredientsScreenState();
 }
 
 class _SearchIngredientsScreenState extends State<SearchIngredientsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
+    return const Scaffold(
       body: Center(
         child: Text(
           'Search Ingredient',

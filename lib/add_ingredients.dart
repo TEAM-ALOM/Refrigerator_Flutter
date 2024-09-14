@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:refrigerator_frontend/search_ingredients.dart';
-import 'package:refrigerator_frontend/home.dart';
+import 'package:refrigerator_frontend/screens/home.dart';
 import 'package:refrigerator_frontend/widgets/ingredients_title.dart';
-
 
 final List<String> imagePaths = [
   'assets/images/food.png',
@@ -12,28 +11,31 @@ final List<String> imagePaths = [
   'assets/images/food.png',
 ];
 
-
-
-
 class AddIngredientsScreen extends StatelessWidget {
+  const AddIngredientsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(
+          title: const Center(
             child: Text('검색'),
           ),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
             },
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchIngredientsScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SearchIngredientsScreen()));
               },
             ),
           ],
@@ -52,7 +54,6 @@ class AddIngredientsScreen extends StatelessWidget {
             IngredientsTile(title: '해산물', imagePaths: imagePaths),
             IngredientsTile(title: '조미료 / 양념', imagePaths: imagePaths),
           ],
-        )
-    );
+        ));
   }
 }
