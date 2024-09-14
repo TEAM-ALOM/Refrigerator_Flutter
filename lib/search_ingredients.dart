@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+
+import 'colos.dart';
 
 class SearchIngredientsScreen extends StatefulWidget {
   @override
@@ -9,9 +12,7 @@ class _SearchIngredientsScreenState extends State<SearchIngredientsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Search Ingredient'),
-      ),
+
       body: Center(
         child: Text(
           'Search Ingredient',
