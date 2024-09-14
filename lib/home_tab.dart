@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:refrigerator_frontend/add_ingredients.dart';
 import 'package:refrigerator_frontend/cards.dart';
 import 'package:refrigerator_frontend/colors.dart';
+import 'package:refrigerator_frontend/screens/search.dart';
 import 'package:refrigerator_frontend/search_ingredients.dart';
 
 import 'book_mark.dart';
@@ -31,8 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Center(
               child: Home(),
             ),
-            Center(
-              child: SearchIngredientsScreen(),
+            const Center(
+              child: Search(),
             ),
             const Center(
               child: BookMarkScreen(),
@@ -127,7 +128,8 @@ class Home extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => AddIngredientsScreen()),
+                    builder: (BuildContext context) =>
+                        const AddIngredientsScreen()),
               );
             },
           ),
