@@ -1,20 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SearchIngredientsScreen extends StatefulWidget {
+class BookMarkScreen extends StatefulWidget {
+  const BookMarkScreen({super.key});
+
   @override
-  _SearchIngredientsScreenState createState() => _SearchIngredientsScreenState();
+  State<BookMarkScreen> createState() => _BookMarkScreenState();
 }
 
-class _SearchIngredientsScreenState extends State<SearchIngredientsScreen> {
+class _BookMarkScreenState extends State<BookMarkScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search Ingredient'),
+        title: Text('Bookmark'),
       ),
       body: Center(
         child: Text(
-          'Search Ingredient',
+          'Bookmark',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
