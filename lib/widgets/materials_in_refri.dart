@@ -1,6 +1,9 @@
-// 가지고 있는 재료 위젯
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// 가지고 있는 재료 위젯
+// 레시피 페이지에서 재료 위젯으로 재탕 가능!!
 
 Widget materialsInRefri(String text) {
   return Container(
