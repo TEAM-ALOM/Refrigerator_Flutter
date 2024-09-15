@@ -188,6 +188,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                     child: BookMarkItem(
+                      materials: const [],
                       imagePath: imagePaths[index],
                       foodName: items[index],
                       cookingTime: '${index + 10}분',
