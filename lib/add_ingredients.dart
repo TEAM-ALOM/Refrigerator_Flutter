@@ -4,11 +4,11 @@ import 'package:refrigerator_frontend/screens/search_screen.dart';
 import 'package:refrigerator_frontend/widgets/ingredients_title.dart';
 
 final List<String> imagePaths = [
-  'assets/images/food.png',
-  'assets/images/food.png',
-  'assets/images/food.png',
-  'assets/images/food.png',
-  'assets/images/food.png',
+  'assets/images/food/food.png',
+  'assets/images/food/food.png',
+  'assets/images/food/food.png',
+  'assets/images/food/food.png',
+  'assets/images/food/food.png',
 ];
 
 class AddIngredientsScreen extends StatelessWidget {
