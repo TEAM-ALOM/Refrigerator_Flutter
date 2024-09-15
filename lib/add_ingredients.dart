@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:refrigerator_frontend/search_ingredients.dart';
-import 'package:refrigerator_frontend/screens/home.dart';
+import 'package:refrigerator_frontend/screens/home_screen.dart';
+import 'package:refrigerator_frontend/screens/search_screen.dart';
 import 'package:refrigerator_frontend/widgets/ingredients_title.dart';
 
 final List<String> imagePaths = [
@@ -35,7 +35,7 @@ class AddIngredientsScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SearchIngredientsScreen()));
+                        builder: (context) => const SearchScreen()));
               },
             ),
           ],

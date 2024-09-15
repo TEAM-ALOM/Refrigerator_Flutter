@@ -1,0 +1,49 @@
+{
+    "user": [
+      {
+        "id": 1,
+        "name": "계란",
+        "count": 3,
+        "purchaseDate": "2024-09-09",
+        "expirationDate":"2024-09-09",
+        "refrigeration" : false,
+        "freezing" : true
+      },
+      {
+        "id": 2,
+        "name": "모짜렐라치즈",
+        "count": 3,
+        "purchaseDate": "2024-09-09",
+        "expirationDate":"2024-09-15",
+        "refrigeration" : false,
+        "freezing" : true
+      },
+      {
+        "id": 3,
+        "name": "버터",
+        "count": 3,
+        "purchaseDate": "2024-09-09",
+        "expirationDate":"2024-10-09",
+        "refrigeration" : false,
+        "freezing" : true
+      },
+      {
+        "id": 8,
+        "name": "우유",
+        "count": 3,
+        "purchaseDate": "2024-09-09",
+        "expirationDate":"2024-09-18",
+        "refrigeration" : false,
+        "freezing" : true
+      },
+      {
+        "id": 13,
+        "name": "복숭아",
+        "count": 3,
+        "purchaseDate": "2024-09-09",
+        "expirationDate":"2024-09-10",
+        "refrigeration" : false,
+        "freezing" : true
+      }
+    ]
+  }
