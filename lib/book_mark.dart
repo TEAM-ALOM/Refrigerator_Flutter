@@ -5,6 +5,8 @@ import 'colors.dart';
 
 List<String> items = List.generate(6, (index) => '김치찌개 ${index}'); // 음식 이름명
 List<bool> isBookMarked = List.generate(6, (index) => true); // 즐겨찾기 삭제 상태 관리 리스트
+List<String> materials = ["감자","양파","애호박","김치","돼지고기","닭고기"];
+
 
 final List<String> imagePaths = [ // 음식 이미지 경로 배열
   'assets/images/food/food.png',
@@ -47,22 +49,20 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
         child: ListView.builder(
           itemCount: items.length,
           itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: BookMarkItem(
-                imagePath: imagePaths[index],
-                foodName: items[index],
-                cookingTime: '${index + 10}분',
-                isMarked: isBookMarked[index],
-                onDelete: () {
-                  setState(() {
-                    print('삭제된 아이템 인덱스: $index');
-                    isBookMarked[index] = false;
-                    items.removeAt(index); // 화면에서 삭제
-                  });
-                },
-                onViewRecipe: viewRecipe, // 레시피 보기 함수 전달
-              ),
+            return BookMarkItem(
+              imagePath: imagePaths[index],
+              foodName: items[index],
+              cookingTime: '${index + 10}분',
+              isMarked: isBookMarked[index],
+              materials: materials,
+              onDelete: () {
+                setState(() {
+                  print('삭제된 아이템 인덱스: $index');
+                  isBookMarked[index] = false;
+                  items.removeAt(index); // 화면에서 삭제
+                });
+              },
+              onViewRecipe: viewRecipe, // 레시피 보기 함수 전달
             );
           },
         ),
