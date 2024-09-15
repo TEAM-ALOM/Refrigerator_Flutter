@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:refrigerator_frontend/add_ingredients.dart';
 import 'package:refrigerator_frontend/book_mark.dart';
 import 'package:refrigerator_frontend/cards.dart';
-import 'package:refrigerator_frontend/user.dart';
 import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/screens/search_screen.dart';
 
