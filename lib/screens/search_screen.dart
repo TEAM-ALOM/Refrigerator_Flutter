@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/colors.dart';
+import 'package:refrigerator_frontend/screens/recipe_screen.dart';
 import 'package:refrigerator_frontend/widgets/bookmark_item.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -61,6 +62,12 @@ class _SearchScreenState extends State<SearchScreen> {
     print(isBookMarked);
     // 다른 화면으로 이동하거나 레시피 정보를 출력하는 로직 추가 가능
     // Navigator.push(context, ...); 등으로 상세 레시피 페이지로 이동 가능
+    Navigator.push<void>(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const RecipeScreen(),
+      ),
+    );
   }
 
   @override
@@ -183,29 +190,20 @@ class _SearchScreenState extends State<SearchScreen> {
               (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: HexColor('#F1F1F1'),
-                        ),
-                      ),
-                    ),
-                    child: BookMarkItem(
-                      materials: const [],
-                      imagePath: imagePaths[index],
-                      foodName: items[index],
-                      cookingTime: '${index + 10}분',
-                      isMarked: isBookMarked[index],
-                      onDelete: () {
-                        setState(() {
-                          print('삭제된 아이템 인덱스: $index');
-                          isBookMarked[index] = false;
-                          items.removeAt(index); // 화면에서 삭제
-                        });
-                      },
-                      onViewRecipe: viewRecipe, // 레시피 보기 함수 전달
-                    ),
+                  child: BookMarkItem(
+                    materials: const [],
+                    imagePath: imagePaths[index],
+                    foodName: items[index],
+                    cookingTime: '${index + 10}분',
+                    isMarked: isBookMarked[index],
+                    onDelete: () {
+                      setState(() {
+                        print('삭제된 아이템 인덱스: $index');
+                        isBookMarked[index] = false;
+                        items.removeAt(index); // 화면에서 삭제
+                      });
+                    },
+                    onViewRecipe: viewRecipe, // 레시피 보기 함수 전달
                   ),
                 );
               },
