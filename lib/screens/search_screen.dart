@@ -69,7 +69,10 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         backgroundColor: background,
         title: Padding(
-          padding: const EdgeInsets.only(right: 20.0, left: 20.0, bottom: 25.0),
+          padding: const EdgeInsets.only(
+            right: 18.0,
+            left: 18.0,
+          ),
           child: TextField(
             focusNode: _focusNode,
             decoration: InputDecoration(
@@ -77,9 +80,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 Icons.search,
               ),
               prefix: _isFocused ? null : null,
+              hintText: '레시피 검색하기',
               hintStyle: TextStyle(
-                color: primary,
-                fontSize: 20,
+                color: Colors.grey.withOpacity(0.6),
+                fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
               focusedBorder: UnderlineInputBorder(

@@ -103,6 +103,7 @@ class _HomeState extends State<Home> {
     6: '토요일',
     7: '일요일',
   };
+  List<String> ingredients = ['당근', '우유', '치즈', '닭', '시금치', '푸딩'];
 
   int ingredient_cnt = 15;
 
@@ -150,48 +151,56 @@ class _HomeState extends State<Home> {
         elevation: 0.5,
         shadowColor: HexColor('#E3E3E3'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '재희의 냉장고',
-              style: TextStyle(
-                color: HexColor('#303030'),
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 24.0),
-              child: Text(
-                '${today.month}월 ${today.day}일 ${weekdays[today.weekday]}', // 오늘 날짜 표시
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '재희의 냉장고',
                 style: TextStyle(
                   color: HexColor('#303030'),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
-            ),
-            Expanded(
-              child: GridView.builder(
-                //재료 아이템 표시
-                padding: EdgeInsets.zero,
-                scrollDirection: Axis.vertical,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 30,
-                  crossAxisSpacing: 20,
-                  childAspectRatio: 1,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: Text(
+                  '${today.month}월 ${today.day}일 ${weekdays[today.weekday]}', // 오늘 날짜 표시
+                  style: TextStyle(
+                    color: HexColor('#303030'),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                itemCount: ingredient_cnt,
-                itemBuilder: (context, index) {
-                  return const _buildIngredientCard(); // 카드 빌드해서 리턴
-                },
               ),
-            ),
-          ],
+              // Expanded(
+              //   child: GridView.builder(
+              //     //재료 아이템 표시
+              //     padding: EdgeInsets.zero,
+              //     scrollDirection: Axis.vertical,
+              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 4,
+              //       mainAxisSpacing: 30,
+              //       crossAxisSpacing: 20,
+              //       childAspectRatio: 1,
+              //     ),
+              //     itemCount: ingredient_cnt,
+              //     itemBuilder: (context, index) {
+              //       return const _buildIngredientCard(); // 카드 빌드해서 리턴
+              //     },
+              //   ),
+              // ),
+              Wrap(
+                spacing: 8,
+                children: List<Widget>.generate(ingredients.length, (index) {
+                  return _buildIngredientCard(i: index);
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -199,10 +208,11 @@ class _HomeState extends State<Home> {
 }
 
 class _buildIngredientCard extends StatefulWidget {
-  const _buildIngredientCard({
+  _buildIngredientCard({
     super.key,
+    required this.i,
   });
-
+  int i;
   @override
   State<_buildIngredientCard> createState() => _buildIngredientCardState();
 }
@@ -246,9 +256,13 @@ class _buildIngredientCardState extends State<_buildIngredientCard> {
                     : dDay < 0
                         ? HexColor('#FF0000').withOpacity(0.8) // 유통기한 지남
                         : HexColor('#FF0000').withOpacity(0.5), // D-day
-        child: const Center(
-          child: Text(
-            '이름',
+        child: SizedBox(
+          height: 40,
+          width: widget.i * 50 + 40,
+          child: const Center(
+            child: Text(
+              '이름',
+            ),
           ),
         ),
       ),
