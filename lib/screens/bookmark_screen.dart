@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/widgets/bookmark_item.dart';
-import 'colors.dart';
+import '../colors.dart';
 
 List<String> items = List.generate(6, (index) => '김치찌개 ${index}'); // 음식 이름명
 List<bool> isBookMarked = List.generate(6, (index) => true); // 즐겨찾기 삭제 상태 관리 리스트

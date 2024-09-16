@@ -6,10 +6,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:refrigerator_frontend/add_ingredients.dart';
-import 'package:refrigerator_frontend/book_mark.dart';
+import 'package:refrigerator_frontend/screens/add_ingredients_screen.dart';
+import 'package:refrigerator_frontend/screens/bookmark_screen.dart';
 import 'package:refrigerator_frontend/cards.dart';
 import 'package:refrigerator_frontend/colors.dart';
+import 'package:refrigerator_frontend/screens/roulette_screen.dart';
 import 'package:refrigerator_frontend/screens/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -118,12 +119,19 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: Icon( //돌림판 아이콘
             Icons.track_changes_outlined,
             size: 25,
             color: iconColor,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                  RouletteScreen()),
+            );
+          },
         ),
         title: Image.asset(
           'assets/images/logo.png',

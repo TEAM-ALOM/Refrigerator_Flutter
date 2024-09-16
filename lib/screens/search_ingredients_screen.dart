@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import 'colors.dart';
+import '../colors.dart';
 
 class SearchIngredientsScreen extends StatefulWidget {
   const SearchIngredientsScreen({super.key});
