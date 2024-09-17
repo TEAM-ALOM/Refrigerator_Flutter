@@ -12,16 +12,18 @@ class RouletteScreen extends StatefulWidget {
 
 class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProviderStateMixin {
   final List<String> foodItems = [
-    'Pizza',
-    'Sushi',
-    'Burger',
-    'Salad',
-    'Pasta',
-    'Steak',
-    'Ramen',
-    'Tacos',
-    'Curry',
-    'Ice Cream'
+    '김치볶음밥',
+    '알리오 올리오',
+    '스파게티',
+    '김치찌개',
+    '제육볶음',
+    '카레',
+    '피자',
+    '초밥',
+    '햄버거',
+    '샐러드',
+    '파스타',
+    '스테이크',
   ];
 
   late AnimationController _controller;
@@ -34,7 +36,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 5), // 스핀 지속 시간
+      duration: const Duration(seconds: 1), // 스핀 지속 시간
       vsync: this,
     );
 
@@ -64,23 +66,31 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
       });
 
       // 결과 계산
-      final resultIndex = (_currentAngle ~/ (360 / foodItems.length)) % foodItems.length;
+      final resultIndex =  Random().nextInt(foodItems.length);
       final result = foodItems[resultIndex];
 
       // 결과 다이얼로그 표시
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: Text('Congratulations!'),
-          content: Text('You got $result!'),
+          title: Text('$result',
+            style: TextStyle(color: rouletteBlue, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('레시피 보러가기', style: TextStyle(color: Colors.grey, decoration: TextDecoration.underline,),textAlign: TextAlign.center),
+          ),
+          backgroundColor : rouletteSky,
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: Text('OK', style: TextStyle(color: rouletteBlue),),
             ),
           ],
+
         ),
       );
     });
@@ -110,18 +120,18 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
       body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 50,
+            ),
             Padding(
               padding: const EdgeInsets.all(20),
               child: Text("오늘의 메뉴는?",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(height: 150),
-            ElevatedButton(
-              onPressed: _spinWheel,
-              child: Text(_spinning ? 'Spinning...' : 'Spin the Wheel!'),
-            ),
-            Transform.translate(offset: Offset(0,150),
+            SizedBox(height: 100),
+
+            Transform.translate(offset: Offset(0,200),
             child: Container(
               width: 500,
               height: 500,
@@ -130,11 +140,16 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                 children: [
                   Transform.rotate(
                     angle: _angle * (pi / 180), // 각도를 라디안으로 변환
-                    child: Image.asset(
-                      'assets/images/roulette.png', // 동그라미 이미지
-                      width: 500,
-                      height: 500,
-                    ),
+                    child: GestureDetector(
+                      onTap: _spinWheel,
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/roulette.png', // 동그라미 이미지
+                          width: 500,
+                          height: 500,
+                        ),
+                      ),
+                    )
                   ),
                 ],
               ),
