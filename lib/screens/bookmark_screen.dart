@@ -3,12 +3,13 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/widgets/bookmark_item.dart';
 import '../colors.dart';
 
-List<String> items = List.generate(6, (index) => '김치찌개 ${index}'); // 음식 이름명
-List<bool> isBookMarked = List.generate(6, (index) => true); // 즐겨찾기 삭제 상태 관리 리스트
-List<String> materials = ["감자","양파","애호박","김치","돼지고기","닭고기"];
+List<String> items = List.generate(6, (index) => '김치찌개 $index'); // 음식 이름명
+List<bool> isBookMarked =
+    List.generate(6, (index) => true); // 즐겨찾기 삭제 상태 관리 리스트
+List<String> materials = ["감자", "양파", "애호박", "김치", "돼지고기", "닭고기"];
 
-
-final List<String> imagePaths = [ // 음식 이미지 경로 배열
+final List<String> imagePaths = [
+  // 음식 이미지 경로 배열
   'assets/images/food/food.png',
   'assets/images/food/food1.png',
   'assets/images/food/김치볶음밥.png',
@@ -41,8 +42,10 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
         centerTitle: true,
         title: const Text('즐겨찾기'),
         backgroundColor: background,
-        elevation: 0.5,
+        elevation: 0,
+        scrolledUnderElevation: 0,
         shadowColor: HexColor('#E3E3E3'),
+        shape: Border(bottom: BorderSide(color: HexColor('#E3E3E3'))),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -70,5 +73,3 @@ class _BookMarkScreenState extends State<BookMarkScreen> {
     );
   }
 }
-
-

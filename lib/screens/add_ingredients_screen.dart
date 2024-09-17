@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/screens/home_screen.dart';
 import 'package:refrigerator_frontend/screens/search_screen.dart';
 import 'package:refrigerator_frontend/widgets/ingredients_title.dart';
@@ -38,6 +40,11 @@ class AddIngredientsScreen extends StatelessWidget {
               },
             ),
           ],
+          backgroundColor: background,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          shadowColor: HexColor('#E3E3E3'),
+          shape: Border(bottom: BorderSide(color: HexColor('#E3E3E3'))),
         ),
         body: ListView(
           children: <Widget>[

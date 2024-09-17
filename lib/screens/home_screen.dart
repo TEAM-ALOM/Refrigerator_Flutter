@@ -119,7 +119,8 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon( //돌림판 아이콘
+          icon: Icon(
+            //돌림판 아이콘
             Icons.track_changes_outlined,
             size: 25,
             color: iconColor,
@@ -128,8 +129,7 @@ class _HomeState extends State<Home> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                  RouletteScreen()),
+                  builder: (BuildContext context) => RouletteScreen()),
             );
           },
         ),
@@ -156,8 +156,10 @@ class _HomeState extends State<Home> {
           ),
         ],
         backgroundColor: background,
-        elevation: 0.5,
+        elevation: 0,
+        scrolledUnderElevation: 0,
         shadowColor: HexColor('#E3E3E3'),
+        shape: Border(bottom: BorderSide(color: HexColor('#E3E3E3'))),
       ),
       body: SingleChildScrollView(
         child: Padding(
