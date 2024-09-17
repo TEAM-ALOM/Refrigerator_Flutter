@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/colors.dart';
+import 'package:refrigerator_frontend/widgets/custom_textformfield.dart';
+import 'package:refrigerator_frontend/widgets/duplication_check_button.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -11,6 +14,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +37,7 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           children: [
             Flexible(
-              flex: 1,
+              flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -52,146 +57,59 @@ class _SignInScreenState extends State<SignInScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Form(
+                        key: formKey,
                         child: Column(
                           children: [
-                            TextFormField(
-                              onTapOutside: (event) =>
-                                  FocusManager.instance.primaryFocus?.unfocus(),
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
-                                suffixIcon: GestureDetector(
-                                  onTap: () {
-                                    print('hihi');
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 5),
-                                    child: Container(
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                        color: HexColor('#F2F2F2'),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          '중복확인',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: txtColor_2,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                hintText: '이메일',
-                                hintStyle: TextStyle(
-                                  color: txtColor_2,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: HexColor('#D9D9D9'),
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: HexColor('#D9D9D9'),
-                                  ),
-                                ),
-                                contentPadding: const EdgeInsets.all(16),
-                              ),
-                              cursorColor: txtColor_2,
+                            CustomTextFormField(
+                              hintText: '이메일',
+                              sufficIcon: const DuplicationCheckButton(),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return '이메일을 입력하세요';
+                                } else {
+                                  String pattern =
+                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                                  RegExp regExp = RegExp(pattern);
+                                  if (!regExp.hasMatch(value)) {
+                                    return '잘못된 이메일 형식입니다.';
+                                  } else {
+                                    return null; //null을 반환하면 정상
+                                  }
+                                }
+                              },
                             ),
                             const SizedBox(
                               height: 22,
                             ),
-                            TextFormField(
-                              onTapOutside: (event) =>
-                                  FocusManager.instance.primaryFocus?.unfocus(),
-                              decoration: InputDecoration(
-                                suffixIcon: GestureDetector(
-                                  onTap: () {
-                                    print('hihi');
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 5),
-                                    child: Container(
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                        color: HexColor('#F2F2F2'),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          '중복확인',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: txtColor_2,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w300,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                hintText: '닉네임',
-                                hintStyle: TextStyle(
-                                  color: txtColor_2,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: HexColor('#D9D9D9'),
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: HexColor('#D9D9D9'),
-                                  ),
-                                ),
-                                contentPadding: const EdgeInsets.all(16),
-                              ),
-                              cursorColor: txtColor_2,
+                            CustomTextFormField(
+                              hintText: '닉네임',
+                              sufficIcon: const DuplicationCheckButton(),
+                              validator: (value) {
+                                if (value!.isEmpty) return '닉네임을 입력하세요';
+                                return null;
+                              },
                             ),
                             const SizedBox(
                               height: 22,
                             ),
-                            TextFormField(
-                              onTapOutside: (event) =>
-                                  FocusManager.instance.primaryFocus?.unfocus(),
-                              decoration: InputDecoration(
-                                hintText: '비밀번호',
-                                hintStyle: TextStyle(
-                                  color: txtColor_2,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: HexColor('#D9D9D9'),
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: HexColor('#D9D9D9'),
-                                  ),
-                                ),
-                                contentPadding: const EdgeInsets.all(16),
-                              ),
-                              cursorColor: txtColor_2,
+                            CustomTextFormField(
+                              hintText: '비밀번호',
+                              sufficIcon: null,
+                              validator: (value) {
+                                String pattern =
+                                    r'^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$';
+                                RegExp regExp = RegExp(pattern);
+
+                                if (value.isEmpty) {
+                                  return '비밀번호를 입력하세요';
+                                } else if (value.length < 8) {
+                                  return '비밀번호는 8자리 이상이어야 합니다';
+                                } else if (!regExp.hasMatch(value)) {
+                                  return '특수문자, 문자, 숫자 포함 8자 이상 15자 이내로 입력하세요.';
+                                } else {
+                                  return null; //null을 반환하면 정상
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -228,7 +146,11 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () async {
+                        if (formKey.currentState!.validate()) {
+                          print('폼 미');
+                        }
+                      },
                     ),
                   ),
                 ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/screens/sign_in_screen.dart';
+import 'package:refrigerator_frontend/widgets/custom_textformfield.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -52,60 +52,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    TextFormField(
-                      onTapOutside: (event) =>
-                          FocusManager.instance.primaryFocus?.unfocus(),
-                      decoration: InputDecoration(
-                        hintText: '이메일 / 닉네임',
-                        hintStyle: TextStyle(
-                          color: txtColor_2,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: HexColor('#D9D9D9'),
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: HexColor('#D9D9D9'),
-                          ),
-                        ),
-                        contentPadding: const EdgeInsets.all(16),
-                      ),
-                      cursorColor: txtColor_2,
+                    CustomTextFormField(
+                      hintText: '이메일 / 닉네임',
+                      sufficIcon: null,
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                     const SizedBox(
                       height: 22,
                     ),
-                    TextFormField(
-                      onTapOutside: (event) =>
-                          FocusManager.instance.primaryFocus?.unfocus(),
-                      decoration: InputDecoration(
-                        hintText: '비밀번호',
-                        hintStyle: TextStyle(
-                          color: txtColor_2,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: HexColor('#D9D9D9'),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: HexColor('#D9D9D9'),
-                          ),
-                        ),
-                        contentPadding: const EdgeInsets.all(16),
-                      ),
-                      cursorColor: txtColor_2,
+                    CustomTextFormField(
+                      hintText: '비밀번호',
+                      sufficIcon: null,
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                   ],
                 ),
