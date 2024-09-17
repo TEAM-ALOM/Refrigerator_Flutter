@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/colors.dart';
+import 'package:refrigerator_frontend/screens/sign_in_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -51,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    TextField(
+                    TextFormField(
                       onTapOutside: (event) =>
                           FocusManager.instance.primaryFocus?.unfocus(),
                       decoration: InputDecoration(
@@ -80,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 22,
                     ),
-                    TextField(
+                    TextFormField(
                       onTapOutside: (event) =>
                           FocusManager.instance.primaryFocus?.unfocus(),
                       decoration: InputDecoration(
@@ -138,13 +139,23 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 14.0),
-            child: Text(
-              '회원가입',
-              style: TextStyle(
-                color: txtColor_2,
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-                decoration: TextDecoration.underline,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const SignInScreen(),
+                  ),
+                );
+              },
+              child: Text(
+                '회원가입',
+                style: TextStyle(
+                  color: txtColor_2,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  decoration: TextDecoration.underline,
+                ),
               ),
             ),
           ),
