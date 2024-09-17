@@ -4,6 +4,7 @@ import 'package:refrigerator_frontend/screens/add_ingredients_screen.dart';
 import 'package:refrigerator_frontend/screens/bookmark_screen.dart';
 import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/screens/home_screen.dart';
+import 'package:refrigerator_frontend/screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.interTextTheme(
             Theme.of(context).textTheme), // 전체 폰트 설정(Inter)
       ),
-      home: const HomeScreen(), // 사용: ExpansionTileDemo 위젯을 사용
+      home: const LoginScreen(), // 사용: ExpansionTileDemo 위젯을 사용
     );
   }
 }
