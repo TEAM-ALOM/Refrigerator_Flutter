@@ -24,8 +24,7 @@ class AddIngredientsScreen extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+              Navigator.pop(context);
             },
           ),
           actions: <Widget>[
