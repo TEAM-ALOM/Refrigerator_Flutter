@@ -107,17 +107,21 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
         elevation: 0.5,
         shadowColor: HexColor('#E3E3E3'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text("오늘의 메뉴는?",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(height: 150),
             ElevatedButton(
               onPressed: _spinWheel,
               child: Text(_spinning ? 'Spinning...' : 'Spin the Wheel!'),
             ),
-            SizedBox(height: 50),
-            Transform.translate(offset: Offset(0,250),
+            Transform.translate(offset: Offset(0,150),
             child: Container(
               width: 500,
               height: 500,
@@ -128,8 +132,8 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                     angle: _angle * (pi / 180), // 각도를 라디안으로 변환
                     child: Image.asset(
                       'assets/images/roulette.png', // 동그라미 이미지
-                      width: 900,
-                      height: 900,
+                      width: 500,
+                      height: 500,
                     ),
                   ),
                 ],
@@ -138,7 +142,7 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
             ),
 
           ],
-        ),
+
       ),
     );
   }
