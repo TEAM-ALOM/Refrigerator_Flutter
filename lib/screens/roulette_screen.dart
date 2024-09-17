@@ -22,23 +22,26 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
 
   late AnimationController _controller;
   late Animation<double> _animation;
-  double _angle = 0.0;
+  double _angle = 0.0; // 누적 각도
+  double _currentAngle = 0.0; // 현재까지의 각도
   bool _spinning = false;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 5), // 스핀 지속 시간
       vsync: this,
     );
 
+    // 애니메이션 설정
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
       parent: _controller,
-      curve: Curves.easeOut,
+      curve: Curves.easeOut, // 점점 느려지는 애니메이션
     ))..addListener(() {
       setState(() {
-        _angle = _animation.value * 360 + _angle; // Incremental rotation
+        // 5바퀴 돌리기
+        _angle = _animation.value * 360 * 10; // 5바퀴 돌도록 각도 설정
       });
     });
   }
@@ -48,16 +51,19 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
     setState(() {
       _spinning = true;
     });
-    final random = Random();
-    final target = random.nextDouble() * 360 + 360 * 5; // Random end angle
+
     _controller.reset();
     _controller.forward().whenComplete(() {
       setState(() {
         _spinning = false;
-        _angle += target; // Final angle after spin
+        _currentAngle += _angle; // 누적 각도 계산
       });
-      final resultIndex = (_angle ~/ (360 / foodItems.length)) % foodItems.length;
+
+      // 결과 계산
+      final resultIndex = (_currentAngle ~/ (360 / foodItems.length)) % foodItems.length;
       final result = foodItems[resultIndex];
+
+      // 결과 다이얼로그 표시
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -99,15 +105,13 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                 alignment: Alignment.center,
                 children: [
                   Transform.rotate(
-                    angle: _angle * (pi),
+                    angle: _angle * (pi / 180), // 각도를 라디안으로 변환
                     child: Image.asset(
                       'assets/images/roulette.png', // 동그라미 이미지
-                      width: 560,
-                      height: 560,
+                      width: 900,
+                      height: 900,
                     ),
                   ),
-                  // 가운데 축을 표시할 수 있는 원형 위젯 (옵션)
-
                 ],
               ),
             ),
