@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:hexcolor/hexcolor.dart';
+
+import '../colors.dart';
+
 class RouletteScreen extends StatefulWidget {
   @override
   _RouletteScreenState createState() => _RouletteScreenState();
@@ -92,15 +96,31 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Food Roulette'),
+
+        title: Image.asset(
+          'assets/images/logo.png',
+          width: 137,
+          height: 137,
+        ),
+        centerTitle: true,
+        backgroundColor: background,
+        elevation: 0.5,
+        shadowColor: HexColor('#E3E3E3'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 300,
-              height: 300,
+
+            ElevatedButton(
+              onPressed: _spinWheel,
+              child: Text(_spinning ? 'Spinning...' : 'Spin the Wheel!'),
+            ),
+            SizedBox(height: 50),
+            Transform.translate(offset: Offset(0,250),
+            child: Container(
+              width: 500,
+              height: 500,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -115,11 +135,8 @@ class _RouletteScreenState extends State<RouletteScreen> with SingleTickerProvid
                 ],
               ),
             ),
-            SizedBox(height: 50),
-            ElevatedButton(
-              onPressed: _spinWheel,
-              child: Text(_spinning ? 'Spinning...' : 'Spin the Wheel!'),
             ),
+
           ],
         ),
       ),
