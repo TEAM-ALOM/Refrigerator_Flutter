@@ -42,6 +42,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+      saveNickname(nickname);
       print('회원가입 성공, ${response.statusCode}');
       Navigator.pop(context);
     } else {
