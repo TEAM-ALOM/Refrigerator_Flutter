@@ -5,16 +5,16 @@ import 'package:refrigerator_frontend/screens/sign_in_screen.dart';
 
 class DuplicationCheckButton extends StatelessWidget {
   // 중복 체크 버튼
-  const DuplicationCheckButton({
+  DuplicationCheckButton({
     super.key,
+    required this.onTap,
   });
+  VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        print('hihi');
-      },
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
         child: Container(

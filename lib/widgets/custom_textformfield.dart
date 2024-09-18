@@ -7,13 +7,19 @@ class CustomTextFormField extends StatelessWidget {
   //  텍스트 필드 커스텀한 거
   String hintText;
   Widget? sufficIcon;
+  bool obscureText; // 텍스트 가리기
   FormFieldValidator validator; // 유효성 검사
+  FormFieldSetter onSaved; // text 받기
+  FormFieldSetter onChanged;
 
   CustomTextFormField({
     super.key,
     required this.hintText,
     required this.sufficIcon,
+    required this.obscureText,
     required this.validator,
+    required this.onSaved,
+    required this.onChanged,
   });
 
   @override
@@ -22,6 +28,9 @@ class CustomTextFormField extends StatelessWidget {
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       keyboardType: TextInputType.emailAddress,
       validator: validator,
+      onSaved: onSaved,
+      onChanged: onChanged,
+      obscureText: obscureText,
       decoration: InputDecoration(
         suffixIcon: sufficIcon,
         hintText: hintText,
