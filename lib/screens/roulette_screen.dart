@@ -1,9 +1,43 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
+import 'package:http/http.dart' as http;
 import 'package:hexcolor/hexcolor.dart';
+import 'package:refrigerator_frontend/models/user_auth.dart';
 
 import '../colors.dart';
+
+import 'package:http/http.dart' as http;
+
+String myToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWVzb3BoeTA4MDVAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTcyNjY3MDg5NiwiZXhwIjoxNzU4MjA4Njk2fQ.l-cXO6_y4DofA10o6R7EspNjd6Vq_rJNh8VUX3bd4g1pHaoAkJkpU6OFyMsaqRE7BYlufsMh8KnPtdcvaINx_g";
+
+
+Future<void> goToRecipe(String menu) async {
+  final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients');
+
+  try {
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $myToken',
+      },
+    );
+
+
+
+    if (response.statusCode == 200) {
+      print(response.body); // 성공적인 응답
+    } else {
+      print('Failed to load data: ${response.statusCode}'); // 상태 코드가 200이 아닌 경우
+    }
+  } catch (e) {
+    print('Error: ${e.toString()}'); // 예외 발생 시
+  }
+}
+
+
 
 class RouletteScreen extends StatefulWidget {
   const RouletteScreen({super.key});
@@ -77,19 +111,28 @@ class _RouletteScreenState extends State<RouletteScreen>
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: Text(
-            result,
-            style: TextStyle(color: rouletteBlue, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+          title: Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: Text(
+              result,
+              style: TextStyle(color: rouletteBlue, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
           ),
-          content: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('레시피 보러가기',
-                style: TextStyle(
-                  color: Colors.grey,
-                  decoration: TextDecoration.underline,
-                ),
-                textAlign: TextAlign.center),
+          content: Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: GestureDetector(
+              onTap: (){
+                goToRecipe("감자국수");
+                print("check");
+              },
+              child: Text('레시피 보러가기',
+                  style: TextStyle(
+                    color: Colors.black,
+                    decoration: TextDecoration.underline,
+                  ),
+                  textAlign: TextAlign.center),
+            ),
           ),
           backgroundColor: rouletteSky,
           actions: [
