@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/models/user_auth.dart';
+import 'package:refrigerator_frontend/screens/home_screen.dart';
 import 'package:refrigerator_frontend/screens/sign_in_screen.dart';
 import 'package:refrigerator_frontend/widgets/custom_textformfield.dart';
 import 'package:http/http.dart' as http;
@@ -36,11 +37,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      print('저는 헤더에오 : ${response.headers}');
-      String? accessToken = response.headers['access'];
-      String? refreshToken = response.headers['refresh'];
+
+      final accessToken = data['authToken']['accessToken'];
+      final refreshToken = data['authToken']['refreshToken'];
+
       print('accessToken : $accessToken');
       print(refreshToken);
+
       if (accessToken != null && refreshToken != null) {
         // 토큰 저장
         await saveTokens(accessToken, refreshToken);
@@ -50,6 +53,11 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       // 로그인 성공
       print('로그인 성공, 토큰: $_token');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        (route) => false,
+      );
     } else {
       print('로그인 실패, ${response.statusCode}');
       showAboutDialog(context: context, children: [const Text('없는 아이디입니다람쥐')]);
