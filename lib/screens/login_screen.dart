@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = '';
   String password = '';
   String _token = '';
+
   Uri url = Uri.parse('http://43.201.84.66:8080/api/login');
   // 로그인 함수
   Future<void> login() async {
@@ -41,8 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
       final accessToken = data['authToken']['accessToken'];
       final refreshToken = data['authToken']['refreshToken'];
 
-      print('accessToken : $accessToken');
-      print(refreshToken);
+      // print('accessToken : $accessToken');
+      // print(refreshToken);
 
       if (accessToken != null && refreshToken != null) {
         // 토큰 저장

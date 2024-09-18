@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -106,12 +107,24 @@ class _HomeState extends State<Home> {
   };
   List<String> ingredients = ['당근', '우유', '치즈', '닭', '시금치', '푸딩'];
 
-  int ingredient_cnt = 15;
+  int ingredientCnt = 15;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _loadNickname();
+  }
+
+  String nickname = '';
+  final storage = const FlutterSecureStorage();
+
+  // 저장된 닉네임 불러오기
+  Future<void> _loadNickname() async {
+    String? savedNickname = await storage.read(key: 'nickname');
+    setState(() {
+      nickname = savedNickname ?? '';
+    });
   }
 
   @override
@@ -129,7 +142,7 @@ class _HomeState extends State<Home> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => RouletteScreen()),
+                  builder: (BuildContext context) => const RouletteScreen()),
             );
           },
         ),
@@ -168,7 +181,7 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '재희의 냉장고',
+                '$nickname의 냉장고',
                 style: TextStyle(
                   color: HexColor('#303030'),
                   fontSize: 15,
@@ -233,7 +246,7 @@ class _buildIngredientCardState extends State<_buildIngredientCard> {
   bool toggledRefrigeration = false;
   bool toggledFreezing = false;
 
-  String _dDay(DateTime purchaseDate, DateTime expirationDate) {
+  String dDay0(DateTime purchaseDate, DateTime expirationDate) {
     var difference = purchaseDate.difference(expirationDate).inDays;
     String dDay;
 
@@ -253,7 +266,7 @@ class _buildIngredientCardState extends State<_buildIngredientCard> {
     int dDay = purchaseDate.difference(expirationDate).inDays;
     return GestureDetector(
       onTap: () {
-        _showModal(context); // 재료 누르면 하단에서 모달 창 나오게 하는 함수 호출
+        showModal(context); // 재료 누르면 하단에서 모달 창 나오게 하는 함수 호출
       },
       child: Card(
         elevation: 0,
@@ -280,7 +293,7 @@ class _buildIngredientCardState extends State<_buildIngredientCard> {
   }
 
   // 하단 모달 창 생성 함수
-  void _showModal(BuildContext context) {
+  void showModal(BuildContext context) {
     String name = '머시기';
     String category = '저시기';
     int cnt = 1;
@@ -364,7 +377,7 @@ class _buildIngredientCardState extends State<_buildIngredientCard> {
                                   ],
                                 ),
                                 Text(
-                                  _dDay(purchaseDate, expirationDate),
+                                  dDay0(purchaseDate, expirationDate),
                                   style: TextStyle(
                                     color: HexColor('#DF0000'),
                                     fontSize: 35,

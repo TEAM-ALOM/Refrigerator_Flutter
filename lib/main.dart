@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:refrigerator_frontend/models/user_auth.dart';
 import 'package:refrigerator_frontend/screens/add_ingredients_screen.dart';
 import 'package:refrigerator_frontend/screens/bookmark_screen.dart';
 import 'package:refrigerator_frontend/colors.dart';

@@ -64,3 +64,8 @@ Future<bool> refreshAccessToken() async {
   }
   return false;
 }
+
+// 로그인 성공 시 닉네임을 저장하는 함수
+Future<void> saveNickname(String nickname) async {
+  await _storage.write(key: 'nickname', value: nickname);
+}
