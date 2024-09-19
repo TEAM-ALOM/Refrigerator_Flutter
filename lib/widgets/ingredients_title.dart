@@ -37,7 +37,7 @@ class _IngredientsTileState extends State<IngredientsTile> {
                   String ingredient = entry.key;
                   return GestureDetector(
                     onTap: () {
-                      showModal(context, ingredient);
+                      showModal(context, ingredient, "주재료");
                     },
                     child: Container(
                       constraints: const BoxConstraints(
@@ -73,9 +73,9 @@ class _IngredientsTileState extends State<IngredientsTile> {
     );
   }
 
-  void showModal(BuildContext context, String ingredient) {
-    String name = '머시기';
-    String category = '저시기';
+  void showModal(BuildContext context, String ingredient, String category) {
+
+
     int cnt = 1;
 
     DateTime purchaseDate = DateTime.now();
@@ -241,7 +241,7 @@ class _IngredientsTileState extends State<IngredientsTile> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '$name / $category',
+                                      '$ingredient / $category',
                                       style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
@@ -336,4 +336,10 @@ class _IngredientsTileState extends State<IngredientsTile> {
       },
     );
   }
+}
+
+
+
+Future<void> sendIngredients(String ingredient) async {
+  String id = await getIngredientId(ingredient);
 }
