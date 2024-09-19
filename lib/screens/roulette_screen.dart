@@ -191,7 +191,7 @@ class _RouletteScreenState extends State<RouletteScreen>
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(
-            height: 50,
+            height: 120,
           ),
           const Padding(
             padding: EdgeInsets.all(20),
@@ -201,27 +201,29 @@ class _RouletteScreenState extends State<RouletteScreen>
             ),
           ),
           const SizedBox(height: 100),
-          Transform.translate(
-            offset: const Offset(0, 200),
-            child: SizedBox(
-              width: 500,
-              height: 500,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Transform.rotate(
-                      angle: _angle * (pi / 180), // 각도를 라디안으로 변환
-                      child: GestureDetector(
-                        onTap: _spinWheel,
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/roulette.png', // 동그라미 이미지
-                            width: 500,
-                            height: 500,
+          Center(
+            child: Transform.translate(
+              offset: const Offset(0, 0),
+              child: SizedBox(
+                width: 350,
+                height: 350,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Transform.rotate(
+                        angle: _angle * (pi / 180), // 각도를 라디안으로 변환
+                        child: GestureDetector(
+                          onTap: _spinWheel,
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/images/roulette.png', // 동그라미 이미지
+                              width: 500,
+                              height: 500,
+                            ),
                           ),
-                        ),
-                      )),
-                ],
+                        )),
+                  ],
+                ),
               ),
             ),
           ),
