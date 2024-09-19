@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,92 +9,23 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:refrigerator_frontend/models/user_auth.dart';
 import 'package:refrigerator_frontend/screens/add_ingredients_screen.dart';
 import 'package:refrigerator_frontend/screens/bookmark_screen.dart';
 import 'package:refrigerator_frontend/cards.dart';
 import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/screens/roulette_screen.dart';
 import 'package:refrigerator_frontend/screens/search_screen.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key}); // 홈 화면
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        body: const TabBarView(
-          // 각 탭별 페이지
-          children: [
-            Center(
-              child: Home(),
-            ),
-            Center(
-              child: SearchScreen(),
-            ),
-            Center(
-              child: BookMarkScreen(),
-            ),
-          ],
-        ),
-        bottomNavigationBar: PreferredSize(
-          //하단 탭바 (바텀 네비게이션 바 역할)
-          preferredSize: const Size.fromHeight(85),
-          child: Container(
-            height: 85,
-            padding: const EdgeInsets.only(top: 5),
-            decoration: BoxDecoration(
-              color: background,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  blurRadius: 15.0,
-                  spreadRadius: 5.0,
-                  offset: const Offset(0, -4),
-                ),
-              ],
-            ),
-            child: TabBar(
-              tabs: const [
-                Tab(
-                  icon: Icon(Icons.home_outlined),
-                  child: SizedBox(height: 30),
-                ),
-                Tab(
-                  icon: Icon(Icons.search),
-                  child: SizedBox(height: 30),
-                ),
-                Tab(
-                  icon: Icon(Icons.star_border),
-                  child: SizedBox(height: 30),
-                ),
-              ],
-              indicatorColor: Colors.transparent,
-              indicatorWeight: 1,
-              labelColor: selectedIconColor,
-              unselectedLabelColor: iconColor,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Home extends StatefulWidget {
-  const Home({super.key});
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   DateTime today = DateTime.now();
 
   var weekdays = {
@@ -105,7 +38,8 @@ class _HomeState extends State<Home> {
     6: '토요일',
     7: '일요일',
   };
-  List<String> ingredients = ['당근', '우유', '치즈', '닭', '시금치', '푸딩'];
+  //List<String> ingredients = ['당근', '우유', '치즈', '닭', '시금치', '푸딩'];
+  List<Map<String, dynamic>> ingredients = [];
 
   int ingredientCnt = 15;
 
@@ -114,6 +48,7 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     _loadNickname();
+    getAllIngredients();
   }
 
   String nickname = '';
@@ -125,6 +60,40 @@ class _HomeState extends State<Home> {
     setState(() {
       nickname = savedNickname ?? '';
     });
+  }
+
+  // 사용자가 추가한 재료 전체 조회
+  Future<void> getAllIngredients() async {
+    final Uri url =
+        Uri.parse('http://43.201.84.66:8080/api/refrigerator/userIngredient');
+    String? myToken = await getAccessToken();
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $myToken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+        print('저는 데이터 에요 : #$data');
+
+        // data를 Map 형태로 변환 후 리스트로 저장
+        ingredients = List<Map<String, dynamic>>.from(data.map((item) {
+          return {
+            'ingredientId': item['ingredientId'],
+            'ingredientName': item['ingredientName'],
+          };
+        }));
+        print(ingredients);
+      } else {
+        // 오류 처리
+        throw Exception('Failed to load ingredients');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   @override
@@ -219,7 +188,10 @@ class _HomeState extends State<Home> {
               Wrap(
                 spacing: 8,
                 children: List<Widget>.generate(ingredients.length, (index) {
-                  return BuildIngredientCard(i: index);
+                  return BuildIngredientCard(
+                    id: ingredients[index]['ingredientId'],
+                    name: ingredients[index]['ingredientName'],
+                  );
                 }),
               ),
             ],
@@ -233,9 +205,12 @@ class _HomeState extends State<Home> {
 class BuildIngredientCard extends StatefulWidget {
   BuildIngredientCard({
     super.key,
-    required this.i,
+    required this.id,
+    required this.name,
   });
-  int i;
+  int id;
+  String name;
+
   @override
   State<BuildIngredientCard> createState() => _BuildIngredientCardState();
 }
@@ -281,10 +256,10 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
                         : HexColor('#FF0000').withOpacity(0.5), // D-day
         child: SizedBox(
           height: 40,
-          width: widget.i * 50 + 40,
-          child: const Center(
+          width: widget.name.length * 20,
+          child: Center(
             child: Text(
-              '이름',
+              widget.name,
             ),
           ),
         ),

@@ -4,7 +4,7 @@ import 'package:refrigerator_frontend/models/user_auth.dart';
 import 'package:refrigerator_frontend/screens/add_ingredients_screen.dart';
 import 'package:refrigerator_frontend/screens/bookmark_screen.dart';
 import 'package:refrigerator_frontend/colors.dart';
-import 'package:refrigerator_frontend/screens/home_screen.dart';
+import 'package:refrigerator_frontend/screens/main_tab_bar.dart';
 import 'package:refrigerator_frontend/screens/login_screen.dart';
 
 void main() {

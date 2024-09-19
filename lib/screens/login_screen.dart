@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/models/user_auth.dart';
-import 'package:refrigerator_frontend/screens/home_screen.dart';
+import 'package:refrigerator_frontend/screens/main_tab_bar.dart';
 import 'package:refrigerator_frontend/screens/sign_in_screen.dart';
 import 'package:refrigerator_frontend/widgets/custom_textformfield.dart';
 import 'package:http/http.dart' as http;
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print('로그인 성공, 토큰: $_token');
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const MainTabBar()),
         (route) => false,
       );
     } else {

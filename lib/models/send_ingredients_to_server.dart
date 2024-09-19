@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:refrigerator_frontend/cards.dart';
 import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/models/get_ingredient_id.dart';
-import 'package:refrigerator_frontend/screens/home_screen.dart';
+import 'package:refrigerator_frontend/screens/main_tab_bar.dart';
 import 'package:refrigerator_frontend/screens/add_ingredients_screen.dart';
 import 'package:http/http.dart' as http;
 import '../models/send_ingredients_to_server.dart';
@@ -24,20 +24,20 @@ Future<void> sendIngredientToServer({
 }) async {
   final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients/send');
   String? myToken = await getAccessToken(); // 토큰을 비동기적으로 가져옵니다
-  String formattedPurchaseDate = DateFormat('yyyy-MM-dd').format(
-      purchaseDate);
-  String formattedExpirationDate = DateFormat('yyyy-MM-dd').format(
-      expirationDate);
+  String formattedPurchaseDate = DateFormat('yyyy-MM-dd').format(purchaseDate);
+  String formattedExpirationDate =
+      DateFormat('yyyy-MM-dd').format(expirationDate);
   // JSON 형식으로 요청 본문을 작성합니다
-  final List<Map<String, dynamic>> requestBody = [{
-    'ingredientId': ingredientId,
-    'category': category,
-    'quantity': quantity,
-    'purchaseDate': formattedPurchaseDate,
-    'expiredDate': formattedExpirationDate,
-    'isFrozen': isFrozen,
-    'isRefrigerated': isRefrigerated,
-  }
+  final List<Map<String, dynamic>> requestBody = [
+    {
+      'ingredientId': ingredientId,
+      'category': category,
+      'quantity': quantity,
+      'purchaseDate': formattedPurchaseDate,
+      'expiredDate': formattedExpirationDate,
+      'isFrozen': isFrozen,
+      'isRefrigerated': isRefrigerated,
+    }
   ];
 
   try {
