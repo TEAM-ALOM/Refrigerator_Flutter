@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -7,13 +9,15 @@ import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/models/get_ingredient_id.dart';
 import 'package:refrigerator_frontend/screens/home_screen.dart';
 import 'package:refrigerator_frontend/screens/add_ingredients_screen.dart';
+import 'package:http/http.dart' as http;
+import '../models/user_auth.dart';
 
 class IngredientsTile extends StatefulWidget {
   final String title;
-  final Map<String, String> ingredientsList;
+  final Map<String, String> ingredientsMap;
 
   const IngredientsTile(
-      {super.key, required this.title, required this.ingredientsList});
+      {super.key, required this.title, required this.ingredientsMap});
 
   @override
   State<IngredientsTile> createState() => _IngredientsTileState();
@@ -33,11 +37,12 @@ class _IngredientsTileState extends State<IngredientsTile> {
               child: Wrap(
                 spacing: 8.0, // 아이템 간의 가로 간격
                 runSpacing: 8.0, // 아이템 간의 세로 간격
-                children: widget.ingredientsList.entries.map((entry) {
+                children: widget.ingredientsMap.entries.map((entry) {
                   String ingredient = entry.key;
+                  String category = entry.value;
                   return GestureDetector(
                     onTap: () {
-                      showModal(context, ingredient, "주재료");
+                      showModal(context, ingredient, category);
                     },
                     child: Container(
                       constraints: const BoxConstraints(
@@ -74,8 +79,6 @@ class _IngredientsTileState extends State<IngredientsTile> {
   }
 
   void showModal(BuildContext context, String ingredient, String category) {
-
-
     int cnt = 1;
 
     DateTime purchaseDate = DateTime.now();
@@ -323,8 +326,12 @@ class _IngredientsTileState extends State<IngredientsTile> {
                       _buildButton('확인', HexColor('#FFFFFF'), primary,
                           () async {
                         // 비동기 작업 수행
-                        print(await getIngredientId(ingredient)); // 예를 들어, 비동기 함수 호출
-                        print(ingredient); // 비동기 작업 이후에 실행할 코드
+
+                        String id = await getIngredientId(ingredient);
+                        await sendIngredientData(ingredientId: int.parse(id), category: category, quantity: 1, purchaseDate: purchaseDate,
+                                expirationDate: expirationDate, isFrozen: isFrozen, isRefrigerated: isRefrigerated);
+                        print(category);
+                        print(ingredient);
                       }),
                     ],
                   ),
@@ -338,8 +345,63 @@ class _IngredientsTileState extends State<IngredientsTile> {
   }
 }
 
-
-
-Future<void> sendIngredients(String ingredient) async {
+Future<void> sendIngredients(String ingredient, String category) async {
   String id = await getIngredientId(ingredient);
+}
+
+// JSON 데이터 전송을 위한 메서드
+Future<void> sendIngredientData({
+  required int ingredientId,
+  required String category,
+  required int quantity,
+  required DateTime purchaseDate,
+  required DateTime expirationDate,
+  required bool isFrozen,
+  required bool isRefrigerated,
+}) async {
+  final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients/send');
+  String? myToken = await getAccessToken(); // 토큰을 비동기적으로 가져옵니다
+  // print(ingredientId);
+  // print(category);
+  // print(quantity);
+  // print(purchaseDate);
+  // print(expirationDate);
+  // print(isFrozen);
+  // print(isRefrigerated);
+  String formattedPurchaseDate = DateFormat('yyyy-MM-dd').format(purchaseDate);
+  String formattedExpirationDate = DateFormat('yyyy-MM-dd').format(expirationDate);
+  // JSON 형식으로 요청 본문을 작성합니다
+  final List<Map<String, dynamic>> requestBody = [{
+    'ingredientId': ingredientId,
+    'category': category,
+    'quantity': quantity,
+    'purchaseDate': formattedPurchaseDate,
+    'expiredDate': formattedExpirationDate,
+    'isFrozen': isFrozen,
+    'isRefrigerated': isRefrigerated,
+  }];
+  print(requestBody.toString());
+
+  try {
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Bearer $myToken',
+        'Content-Type': 'application/json', // JSON 요청 본문을 보낼 때 설정
+      },
+      body: json.encode(requestBody), // 요청 본문을 JSON으로 인코딩
+    );
+
+    if (response.statusCode == 200) {
+      print('Request was successful');
+      // 응답 처리 로직
+    } else {
+      print('Failed to send data: ${response.statusCode}');
+      // 실패 시 처리 로직
+    }
+  } catch (e) {
+    print('Error: ${e.toString()}');
+    // 예외 발생 시 처리 로직
+  }
 }

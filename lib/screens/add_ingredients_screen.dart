@@ -51,7 +51,7 @@ class _AddIngredientsScreenState extends State<AddIngredientsScreen> {
 
 // 'id'와 'name'을 Map으로 저장
         Map<String, String> ingredients = {
-          for (var item in data) item['name']: item['id'].toString(),
+          for (var item in data) item['name']: category,
         };
 
 // 출력
@@ -119,9 +119,9 @@ class _AddIngredientsScreenState extends State<AddIngredientsScreen> {
         ),
         body: ListView(
           children: <Widget>[
-            IngredientsTile(title: '주재료', ingredientsList: mainIngredients),
-            IngredientsTile(title: '부재료', ingredientsList: subIngredients),
-            IngredientsTile(title: '양념', ingredientsList: seasonings),
+            IngredientsTile(title: '주재료', ingredientsMap: mainIngredients),
+            IngredientsTile(title: '부재료', ingredientsMap: subIngredients),
+            IngredientsTile(title: '양념', ingredientsMap: seasonings),
           ],
         ));
   }
