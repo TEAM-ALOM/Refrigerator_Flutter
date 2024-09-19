@@ -4,7 +4,8 @@ class IngredientsTile extends StatelessWidget {
   final String title;
   final List<String> imagePaths; // 리스트의 이름이 바뀌어야 할 수도 있음, 예를 들어 textItems
 
-  IngredientsTile({required this.title, required this.imagePaths});
+  const IngredientsTile(
+      {super.key, required this.title, required this.imagePaths});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +13,7 @@ class IngredientsTile extends StatelessWidget {
       children: <Widget>[
         ExpansionTile(
           title: Text(title),
+          initiallyExpanded: false,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -28,10 +30,11 @@ class IngredientsTile extends StatelessWidget {
                       // 여기서 다른 동작을 추가할 수 있습니다.
                     },
                     child: Container(
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         maxWidth: 120.0, // 텍스트 길이에 따라 조정할 수 있는 최대 너비
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 4.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
                         color: Colors.grey[300],
@@ -39,7 +42,7 @@ class IngredientsTile extends StatelessWidget {
                       child: Center(
                         child: Text(
                           textName, // 텍스트 표시
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16.0,
                             color: Colors.black87,
                           ),
@@ -53,9 +56,8 @@ class IngredientsTile extends StatelessWidget {
               ),
             ),
           ],
-          initiallyExpanded: false,
         ),
-        Divider(height: 1.0, color: Colors.grey), // 구분선 추가
+        const Divider(height: 1.0, color: Colors.grey), // 구분선 추가
       ],
     );
   }
