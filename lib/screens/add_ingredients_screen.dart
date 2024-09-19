@@ -18,12 +18,13 @@ final List<String> imagePaths = [
   'assets/images/food/food.png',
 ];
 
+List<String> mainIngredients=[];
+List<String> subIngredients=[];
+List<String> seasonings=[];
 
 
-
-Future<List<String>?> getIngredients(String category) async {
-  List<String> mainIngredients=[];
-  final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients/category/주재료');
+Future<void> getIngredients(String category) async {
+  final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients/category/${category}}');
   String? myToken = await getAccessToken();
   try {
     final response = await http.get(
@@ -41,7 +42,7 @@ Future<List<String>?> getIngredients(String category) async {
       print(data);
       print(data.length);
       // '주재료'만 필터링하여 name 추출
-      mainIngredients = data
+      List<String> Ingredients = data
           .map((item) => item['name'] as String)
           .toList();
 
@@ -89,13 +90,13 @@ class AddIngredientsScreen extends StatelessWidget {
           elevation: 0,
           scrolledUnderElevation: 0,
           shadowColor: HexColor('#E3E3E3'),
-          shape: Border(bottom: BorderSide(color: HexColor('#E3E3E3'))),
+          // shape: Border(bottom: BorderSide(color: Colors.black)),
         ),
         body: ListView(
           children: <Widget>[
             IngredientsTile(title: '주재료', imagePaths: mainIngredients),
-            IngredientsTile(title: '부재료', imagePaths: imagePaths),
-            IngredientsTile(title: '양념', imagePaths: imagePaths),
+            IngredientsTile(title: '부재료', imagePaths: subIngredients),
+            IngredientsTile(title: '양념', imagePaths: seasonings),
           ],
         ));
   }
