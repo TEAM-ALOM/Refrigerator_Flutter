@@ -80,13 +80,16 @@ class _HomeScreenState extends State<HomeScreen> {
         print('저는 데이터 에요 : #$data');
 
         // data를 Map 형태로 변환 후 리스트로 저장
-        ingredients = List<Map<String, dynamic>>.from(data.map((item) {
-          return {
-            'ingredientId': item['ingredientId'],
-            'ingredientName': item['ingredientName'],
-          };
-        }));
-        print(ingredients);
+
+        setState(() {
+          ingredients = List<Map<String, dynamic>>.from(data.map((item) {
+            return {
+              'ingredientId': item['ingredientId'],
+              'ingredientName': item['ingredientName'],
+            };
+          }));
+          //print(ingredients);
+        });
       } else {
         // 오류 처리
         throw Exception('Failed to load ingredients');
@@ -115,10 +118,14 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
-        title: Image.asset(
-          'assets/images/logo.png',
-          width: 137,
-          height: 137,
+        title: Text(
+          '냉장고의 꿈',
+          style: TextStyle(
+            fontFamily: 'CookieRun',
+            color: primary,
+            fontWeight: FontWeight.w400,
+            fontSize: 24,
+          ),
         ),
         actions: [
           IconButton(
@@ -168,23 +175,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              // Expanded(
-              //   child: GridView.builder(
-              //     //재료 아이템 표시
-              //     padding: EdgeInsets.zero,
-              //     scrollDirection: Axis.vertical,
-              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              //       crossAxisCount: 4,
-              //       mainAxisSpacing: 30,
-              //       crossAxisSpacing: 20,
-              //       childAspectRatio: 1,
-              //     ),
-              //     itemCount: ingredient_cnt,
-              //     itemBuilder: (context, index) {
-              //       return const _buildIngredientCard(); // 카드 빌드해서 리턴
-              //     },
-              //   ),
-              // ),
               Wrap(
                 spacing: 8,
                 children: List<Widget>.generate(ingredients.length, (index) {

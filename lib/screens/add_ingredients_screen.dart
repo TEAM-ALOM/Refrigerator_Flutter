@@ -38,21 +38,19 @@ class _AddIngredientsScreenState extends State<AddIngredientsScreen> {
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
 
-// 'id'와 'name'을 Map으로 저장
-        Map<String, String> ingredients = {
-          for (var item in data) item['name']: category,
-        };
+        setState(() {
+          // 'id'와 'name'을 Map으로 저장
+          Map<String, String> ingredients = {
+            for (var item in data) item['name']: category,
+          };
 
-// 출력
-//       print(ingredients);
-
-        if (category == "주재료") {
-          mainIngredients = ingredients;
-        } else if (category == "부재료")
-          subIngredients = ingredients;
-        else
-          seasonings = ingredients;
-        // 결과 출력
+          if (category == "주재료") {
+            mainIngredients = ingredients;
+          } else if (category == "부재료")
+            subIngredients = ingredients;
+          else
+            seasonings = ingredients;
+        });
       } else {
         print(
             'Failed to load data: ${response.statusCode}'); // 상태 코드가 200이 아닌 경우
