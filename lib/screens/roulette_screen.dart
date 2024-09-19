@@ -87,7 +87,7 @@ class _RouletteScreenState extends State<RouletteScreen>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 1), // 스핀 지속 시간
+      duration: const Duration(seconds: 2), // 스핀 지속 시간
       vsync: this,
     );
 
