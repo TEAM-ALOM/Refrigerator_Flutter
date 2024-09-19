@@ -219,7 +219,7 @@ class _HomeState extends State<Home> {
               Wrap(
                 spacing: 8,
                 children: List<Widget>.generate(ingredients.length, (index) {
-                  return _buildIngredientCard(i: index);
+                  return BuildIngredientCard(i: index);
                 }),
               ),
             ],
@@ -230,23 +230,23 @@ class _HomeState extends State<Home> {
   }
 }
 
-class _buildIngredientCard extends StatefulWidget {
-  _buildIngredientCard({
+class BuildIngredientCard extends StatefulWidget {
+  BuildIngredientCard({
     super.key,
     required this.i,
   });
   int i;
   @override
-  State<_buildIngredientCard> createState() => _buildIngredientCardState();
+  State<BuildIngredientCard> createState() => _BuildIngredientCardState();
 }
 
-class _buildIngredientCardState extends State<_buildIngredientCard> {
+class _BuildIngredientCardState extends State<BuildIngredientCard> {
   DateTime purchaseDate = DateTime.now();
   DateTime expirationDate = DateTime.now();
-  bool toggledRefrigeration = false;
-  bool toggledFreezing = false;
+  bool isRefrigerated = false;
+  bool isFrozen = false;
 
-  String dDay0(DateTime purchaseDate, DateTime expirationDate) {
+  String dDay(DateTime purchaseDate, DateTime expirationDate) {
     var difference = purchaseDate.difference(expirationDate).inDays;
     String dDay;
 
@@ -377,7 +377,7 @@ class _buildIngredientCardState extends State<_buildIngredientCard> {
                                   ],
                                 ),
                                 Text(
-                                  dDay0(purchaseDate, expirationDate),
+                                  dDay(purchaseDate, expirationDate),
                                   style: TextStyle(
                                     color: HexColor('#DF0000'),
                                     fontSize: 35,
@@ -510,11 +510,11 @@ class _buildIngredientCardState extends State<_buildIngredientCard> {
                         ),
                       ),
                       Switch.adaptive(
-                        value: toggledRefrigeration,
+                        value: isRefrigerated,
                         activeColor: primary,
                         onChanged: (bool value) {
                           setModalState(() {
-                            toggledRefrigeration = value;
+                            isRefrigerated = value;
                           });
                         },
                       ),
@@ -536,11 +536,11 @@ class _buildIngredientCardState extends State<_buildIngredientCard> {
                         ),
                       ),
                       CupertinoSwitch(
-                        value: toggledFreezing,
+                        value: isFrozen,
                         activeColor: primary,
                         onChanged: (bool value) {
                           setModalState(() {
-                            toggledFreezing = value;
+                            isFrozen = value;
                           });
                         },
                       ),

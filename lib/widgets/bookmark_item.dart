@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'materials_in_refri.dart';
 
-
-class BookMarkItem extends StatefulWidget { //즐겨찾기된 레시피 위젯
+class BookMarkItem extends StatefulWidget {
+  //즐겨찾기된 레시피 위젯
   final String imagePath; // 음식 이미지 경로
   final String foodName; // 음식 이름
   final String cookingTime; // 조리시간
@@ -12,7 +12,7 @@ class BookMarkItem extends StatefulWidget { //즐겨찾기된 레시피 위젯
   final List<String> materials; // 재료 리스트
 
   const BookMarkItem({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.foodName,
     required this.cookingTime,
@@ -20,7 +20,7 @@ class BookMarkItem extends StatefulWidget { //즐겨찾기된 레시피 위젯
     required this.onDelete,
     required this.onViewRecipe,
     required this.materials,
-  }) : super(key: key);
+  });
 
   @override
   _BookMarkItemState createState() => _BookMarkItemState();
@@ -49,7 +49,6 @@ class _BookMarkItemState extends State<BookMarkItem> {
         });
       },
       onTap: () {
-
         widget.onViewRecipe(widget.foodName); // 레시피 보기 함수 호출
       },
       child: Padding(
@@ -120,9 +119,9 @@ class _BookMarkItemState extends State<BookMarkItem> {
                   child: Row(
                     children: widget.materials
                         .map((material) => Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: materialsInRefri(material),
-                    ))
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: materialsInRefri(material),
+                            ))
                         .toList(),
                   ),
                 ),

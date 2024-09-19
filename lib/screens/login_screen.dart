@@ -100,10 +100,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         '로그인',
                         style: TextStyle(
-                            color: txtColor_1,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'CookieRun'),
+                          color: txtColor_1,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     CustomTextFormField(
