@@ -92,7 +92,7 @@ class _AddIngredientsScreenState extends State<AddIngredientsScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Center(
-            child: Text('검색'),
+            child: Text('검색',style: TextStyle(fontFamily: "CookieRun"),),
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
