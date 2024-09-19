@@ -191,16 +191,16 @@ class _RouletteScreenState extends State<RouletteScreen>
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(
-            height: 120,
+            height: 110,
           ),
           const Padding(
             padding: EdgeInsets.all(20),
             child: Text(
               "오늘의 메뉴는?",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, fontFamily: "CookieRun"),
             ),
           ),
-          const SizedBox(height: 100),
+          const SizedBox(height: 70),
           Center(
             child: Transform.translate(
               offset: const Offset(0, 0),
