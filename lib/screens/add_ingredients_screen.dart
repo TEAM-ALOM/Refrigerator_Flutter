@@ -10,68 +10,87 @@ import 'package:http/http.dart' as http;
 
 import '../models/user_auth.dart';
 
-final List<String> imagePaths = [
-  'assets/images/food/foodsdjfljdlfjslkjflkdjl.png',
-  'assets/images/food/food.png',
-  'assets/images/food/food.png',
-  'assets/images/food/food.png',
-  'assets/images/food/food.png',
-];
 
-List<String> mainIngredients=[];
-List<String> subIngredients=[];
-List<String> seasonings=[];
+Map<String, String> allIngredients = {};
 
 
-Future<void> getIngredients(String category) async {
-  final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients/category/${category}');
-  String? myToken = await getAccessToken();
-  try {
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer $myToken',
-      },
-    );
-    print(response.body);
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
-      print(data[0]['id']);   // 0
-      print(data[0]['name']); // "string"
-      print(data);
-      print(data.length);
-      // '주재료'만 필터링하여 name 추출
-      List<String> ingredients = data
-          .map((item) => item['name'] as String)
-          .toList();
 
-      // 가나다순으로 정렬
-      ingredients.sort();
 
-      if(category=="주재료")
-        mainIngredients = ingredients;
-      else if(category=="부재료")
-        subIngredients = ingredients;
-      else
-        seasonings = ingredients;
-      // 결과 출력
-    } else {
-      print('Failed to load data: ${response.statusCode}'); // 상태 코드가 200이 아닌 경우
-    }
-  } catch (e) {
-    print('Error: ${e.toString()}'); // 예외 발생 시
-  }
+
+
+
+
+class AddIngredientsScreen extends StatefulWidget {
+  const AddIngredientsScreen({super.key});
+
+
+  @override
+  State<AddIngredientsScreen> createState() => _AddIngredientsScreenState();
 }
 
-class AddIngredientsScreen extends StatelessWidget {
-  const AddIngredientsScreen({super.key});
+class _AddIngredientsScreenState extends State<AddIngredientsScreen> {
+  static Map<String, String> mainIngredients={};
+  static Map<String, String> subIngredients={};
+  static Map<String, String> seasonings={};
+
+  Future<void> getIngredients(String category) async {
+    final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients/category/${category}');
+    String? myToken = await getAccessToken();
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $myToken',
+        },
+      );
+      // print(response.body);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+
+// 'id'와 'name'을 Map으로 저장
+        Map<String, String> ingredients = {
+          for (var item in data) item['name']: item['id'].toString(),
+        };
+
+// 출력
+//       print(ingredients);
+
+        if(category=="주재료")
+          mainIngredients = ingredients;
+        else if(category=="부재료")
+          subIngredients = ingredients;
+        else
+          seasonings = ingredients;
+        // 결과 출력
+      } else {
+        print('Failed to load data: ${response.statusCode}'); // 상태 코드가 200이 아닌 경우
+      }
+    } catch (e) {
+      print('Error: ${e.toString()}'); // 예외 발생 시
+    }
+  }
+
+
+  @override
+  void initState() {
+    _initializeIngredients();
+
+    super.initState();
+  }
+
+  Future<void> _initializeIngredients() async {
+    await getIngredients("주재료");
+    await getIngredients("부재료");
+    await getIngredients("양념");
+    allIngredients.addAll(mainIngredients);
+    allIngredients.addAll(subIngredients);
+    allIngredients.addAll(seasonings);
+  }
 
   @override
   Widget build(BuildContext context) {
-    getIngredients("주재료");
-    getIngredients("부재료");
-    getIngredients("양념");
 
     return Scaffold(
         appBar: AppBar(
@@ -103,9 +122,9 @@ class AddIngredientsScreen extends StatelessWidget {
         ),
         body: ListView(
           children: <Widget>[
-            IngredientsTile(title: '주재료', imagePaths: mainIngredients),
-            IngredientsTile(title: '부재료', imagePaths: subIngredients),
-            IngredientsTile(title: '양념', imagePaths: seasonings),
+            IngredientsTile(title: '주재료', ingredientsList: mainIngredients),
+            IngredientsTile(title: '부재료', ingredientsList: subIngredients),
+            IngredientsTile(title: '양념', ingredientsList: seasonings),
           ],
         ));
   }
