@@ -42,13 +42,19 @@ Future<void> getIngredients(String category) async {
       print(data);
       print(data.length);
       // '주재료'만 필터링하여 name 추출
-      List<String> Ingredients = data
+      List<String> ingredients = data
           .map((item) => item['name'] as String)
           .toList();
 
       // 가나다순으로 정렬
-      mainIngredients.sort();
+      ingredients.sort();
 
+      if(category=="주재료")
+        mainIngredients = ingredients;
+      else if(category=="부재료")
+        subIngredients = ingredients;
+      else
+        seasonings = ingredients;
       // 결과 출력
     } else {
       print('Failed to load data: ${response.statusCode}'); // 상태 코드가 200이 아닌 경우
