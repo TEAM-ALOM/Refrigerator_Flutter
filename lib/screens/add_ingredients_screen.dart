@@ -24,7 +24,7 @@ List<String> seasonings=[];
 
 
 Future<void> getIngredients(String category) async {
-  final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients/category/${category}}');
+  final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients/category/${category}');
   String? myToken = await getAccessToken();
   try {
     final response = await http.get(
@@ -70,6 +70,9 @@ class AddIngredientsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getIngredients("주재료");
+    getIngredients("부재료");
+    getIngredients("양념");
+
     return Scaffold(
         appBar: AppBar(
           title: const Center(
