@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import '../models/user_auth.dart';
 
 
-Map<String, String> allIngredients = {};
+
 
 
 
@@ -84,9 +84,6 @@ class _AddIngredientsScreenState extends State<AddIngredientsScreen> {
     await getIngredients("주재료");
     await getIngredients("부재료");
     await getIngredients("양념");
-    allIngredients.addAll(mainIngredients);
-    allIngredients.addAll(subIngredients);
-    allIngredients.addAll(seasonings);
   }
 
   @override
