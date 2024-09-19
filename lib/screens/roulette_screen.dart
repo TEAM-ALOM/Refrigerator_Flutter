@@ -11,12 +11,13 @@ import '../colors.dart';
 
 import 'package:http/http.dart' as http;
 
-String myToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWVzb3BoeTA4MDVAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTcyNjY3MDg5NiwiZXhwIjoxNzU4MjA4Njk2fQ.l-cXO6_y4DofA10o6R7EspNjd6Vq_rJNh8VUX3bd4g1pHaoAkJkpU6OFyMsaqRE7BYlufsMh8KnPtdcvaINx_g";
+
 
 
 Future<void> goToRecipe(String menu) async {
-  final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients');
-
+  print(Uri.encodeComponent("한식"));
+  final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients/category/주재료');
+  String? myToken = await getAccessToken();
   try {
     final response = await http.get(
       url,
@@ -24,11 +25,24 @@ Future<void> goToRecipe(String menu) async {
         'Authorization': 'Bearer $myToken',
       },
     );
-
-
+    print(response.body);
 
     if (response.statusCode == 200) {
-      print(response.body); // 성공적인 응답
+      final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+      print(data[0]['id']);   // 0
+      print(data[0]['name']); // "string"
+      print(data);
+      print(data.length);
+      // '주재료'만 필터링하여 name 추출
+      List<String> mainIngredients = data
+          .map((item) => item['name'] as String)
+          .toList();
+
+      // 가나다순으로 정렬
+      mainIngredients.sort();
+
+      // 결과 출력
+      print(mainIngredients);
     } else {
       print('Failed to load data: ${response.statusCode}'); // 상태 코드가 200이 아닌 경우
     }

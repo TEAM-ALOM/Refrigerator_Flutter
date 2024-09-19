@@ -1,23 +1,68 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/screens/home_screen.dart';
 import 'package:refrigerator_frontend/screens/search_screen.dart';
 import 'package:refrigerator_frontend/widgets/ingredients_title.dart';
+import 'package:http/http.dart' as http;
+
+import '../models/user_auth.dart';
 
 final List<String> imagePaths = [
-  'assets/images/food/food.png',
+  'assets/images/food/foodsdjfljdlfjslkjflkdjl.png',
   'assets/images/food/food.png',
   'assets/images/food/food.png',
   'assets/images/food/food.png',
   'assets/images/food/food.png',
 ];
 
+
+
+
+Future<List<String>?> getIngredients(String category) async {
+  List<String> mainIngredients=[];
+  final Uri url = Uri.parse('http://43.201.84.66:8080/api/ingredients/category/주재료');
+  String? myToken = await getAccessToken();
+  try {
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $myToken',
+      },
+    );
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+      print(data[0]['id']);   // 0
+      print(data[0]['name']); // "string"
+      print(data);
+      print(data.length);
+      // '주재료'만 필터링하여 name 추출
+      mainIngredients = data
+          .map((item) => item['name'] as String)
+          .toList();
+
+      // 가나다순으로 정렬
+      mainIngredients.sort();
+
+      // 결과 출력
+    } else {
+      print('Failed to load data: ${response.statusCode}'); // 상태 코드가 200이 아닌 경우
+    }
+  } catch (e) {
+    print('Error: ${e.toString()}'); // 예외 발생 시
+  }
+}
+
 class AddIngredientsScreen extends StatelessWidget {
   const AddIngredientsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    getIngredients("주재료");
     return Scaffold(
         appBar: AppBar(
           title: const Center(
@@ -48,17 +93,9 @@ class AddIngredientsScreen extends StatelessWidget {
         ),
         body: ListView(
           children: <Widget>[
-            IngredientsTile(title: '가공 / 유제품', imagePaths: imagePaths),
-            IngredientsTile(title: '고기', imagePaths: imagePaths),
-            IngredientsTile(title: '곡물', imagePaths: imagePaths),
-            IngredientsTile(title: '과일', imagePaths: imagePaths),
-            IngredientsTile(title: '면', imagePaths: imagePaths),
-            IngredientsTile(title: '빵 / 떡', imagePaths: imagePaths),
-            IngredientsTile(title: '음료 / 주류', imagePaths: imagePaths),
-            IngredientsTile(title: '채소', imagePaths: imagePaths),
-            IngredientsTile(title: '콩 / 견과류', imagePaths: imagePaths),
-            IngredientsTile(title: '해산물', imagePaths: imagePaths),
-            IngredientsTile(title: '조미료 / 양념', imagePaths: imagePaths),
+            IngredientsTile(title: '주재료', imagePaths: mainIngredients),
+            IngredientsTile(title: '부재료', imagePaths: imagePaths),
+            IngredientsTile(title: '양념', imagePaths: imagePaths),
           ],
         ));
   }

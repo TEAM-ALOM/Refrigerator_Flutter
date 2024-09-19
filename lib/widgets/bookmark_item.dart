@@ -49,6 +49,7 @@ class _BookMarkItemState extends State<BookMarkItem> {
         });
       },
       onTap: () {
+
         widget.onViewRecipe(widget.foodName); // 레시피 보기 함수 호출
       },
       child: Padding(
