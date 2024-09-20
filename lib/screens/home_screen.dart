@@ -180,6 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return BuildIngredientCard(
                     id: ingredients[index]['ingredientId'],
                     name: ingredients[index]['ingredientName'],
+                    index: index,
                   );
                 }),
               ),
@@ -196,9 +197,11 @@ class BuildIngredientCard extends StatefulWidget {
     super.key,
     required this.id,
     required this.name,
+    required this.index,
   });
   int id;
   String name;
+  int index;
 
   @override
   State<BuildIngredientCard> createState() => _BuildIngredientCardState();
@@ -230,9 +233,9 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
     var difference = purchaseDate.difference(expirationDate).inDays;
     String dDay;
 
-    if (difference > 0) {
-      dDay = "D-$difference";
-    } else if (difference < 0) {
+    if (difference < 0) {
+      dDay = "D$difference";
+    } else if (difference > 0) {
       dDay = "D+${difference.abs()}";
     } else {
       dDay = "D-day";
@@ -322,9 +325,16 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    int dDay = purchaseDate.difference(expirationDate).inDays;
-    dDay = dDaytoInt(purchaseDate, expirationDate);
+    // int dDay =
+    //     detail['purchaseDate'].difference(detail['expirationDate']).inDays;
+    // dDay = dDaytoInt(purchaseDate, expirationDate);
 
     return GestureDetector(
       onTap: () async {
@@ -334,13 +344,13 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
       },
       child: Card(
         elevation: 0,
-        color: dDay > 3
-            ? background // 3 일보다 많이 남았으면 회색
-            : dDay == 3
+        color: widget.index > 3
+            ? HexColor('#F2F2F2') // 3 일보다 많이 남았으면 회색
+            : widget.index == 3
                 ? HexColor('#FF0000').withOpacity(0.1) // 3일
-                : dDay == 2
+                : widget.index == 2
                     ? HexColor('#FF0000').withOpacity(0.25) // 2일
-                    : dDay < 0
+                    : widget.index < 0
                         ? HexColor('#FF0000').withOpacity(0.8) // 유통기한 지남
                         : HexColor('#FF0000').withOpacity(0.5), // D-day
         child: SizedBox(
