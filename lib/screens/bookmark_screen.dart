@@ -4,7 +4,14 @@ import 'package:refrigerator_frontend/models/get_recipe_details.dart';
 import 'package:refrigerator_frontend/widgets/bookmark_item.dart';
 import '../colors.dart';
 
-List<String> items = List.generate(6, (index) => '김치찌개 $index'); // 음식 이름명
+List<String> items = [
+  "김치볶음밥",
+  "라볶이",
+  "참치김치찌개",
+  "버섯청국장찌개",
+  "비빔쌀국수"
+];
+ // 음식 이름명
 List<bool> isBookMarked =
     List.generate(6, (index) => true); // 즐겨찾기 삭제 상태 관리 리스트
 List<String> materials = ["감자", "양파", "애호박", "김치", "돼지고기", "닭고기"];

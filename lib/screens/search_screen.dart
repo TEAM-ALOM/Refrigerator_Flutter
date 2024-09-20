@@ -16,6 +16,8 @@ class SearchScreen extends StatefulWidget {
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
+List<String> materials = ["감자", "양파", "애호박", "김치", "돼지고기", "닭고기"];
+
 class _SearchScreenState extends State<SearchScreen> {
   final FocusNode _focusNode = FocusNode();
   bool _isFocused = false;
@@ -35,22 +37,20 @@ class _SearchScreenState extends State<SearchScreen> {
 
   List<String> items = List.generate(6, (index) => '김치찌개 $index'); // 음식 이름명
   List<bool> isBookMarked =
-      List.generate(6, (index) => true); // 즐겨찾기 삭제 상태 관리 리스트
-  //List recipes = [];
+  List.generate(6, (index) => true); // 즐겨찾기 삭제 상태 관리 리스트
+  List<String> materials = ["감자", "양파", "애호박", "김치", "돼지고기", "닭고기"];
   List<Map<String, dynamic>> recipes = [];
 
   final List<String> imagePaths = [
     // 음식 이미지 경로 배열
-    'assets/images/food/food.png',
-    'assets/images/food/food1.png',
+
     'assets/images/food/김치볶음밥.png',
-    'assets/images/food/돼지고기 김치볶음.png',
-    'assets/images/food/미역국.png',
-    'assets/images/food/순두부찌개.png',
-    'assets/images/food/돼지고기 김치볶음.png',
-    'assets/images/food/돼지고기 김치볶음.png',
-    'assets/images/food/돼지고기 김치볶음.png',
-    'assets/images/food/돼지고기 김치볶음.png',
+    'assets/images/food/라볶이.png',
+    'assets/images/food/참치김치찌개.png',
+    'assets/images/food/버섯청국장찌개.png',
+    'assets/images/food/비빔쌀국수.png',
+
+
   ];
 
   @override
@@ -268,11 +268,11 @@ class _SearchScreenState extends State<SearchScreen> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: BookMarkItem(
-                    materials: const [],
                     imagePath: imagePaths[index],
                     foodName: items[index],
                     cookingTime: '${index + 10}분',
                     isMarked: isBookMarked[index],
+                    materials: materials,
                     onDelete: () {
                       setState(() {
                         print('삭제된 아이템 인덱스: $index');
@@ -281,7 +281,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       });
                     },
                     onViewRecipe: viewRecipe, // 레시피 보기 함수 전달
-                  ),
+                  )
                 );
               },
               childCount: 6, // 아이템 개수
