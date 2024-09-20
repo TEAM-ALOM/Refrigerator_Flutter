@@ -11,12 +11,14 @@ List<String> materials = ["감자", "양파", "애호박", "김치", "돼지고�
 
 final List<String> imagePaths = [
   // 음식 이미지 경로 배열
-  'assets/images/food/food.png',
-  'assets/images/food/food1.png',
+
   'assets/images/food/김치볶음밥.png',
-  'assets/images/food/돼지고기 김치볶음.png',
-  'assets/images/food/미역국.png',
-  'assets/images/food/순두부찌개.png',
+  'assets/images/food/라볶이.png',
+  'assets/images/food/참치김치찌개.png',
+  'assets/images/food/버섯청국장찌개.png',
+  'assets/images/food/비빔쌀국수.png',
+  
+
 ];
 
 class BookMarkScreen extends StatefulWidget {
