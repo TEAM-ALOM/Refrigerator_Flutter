@@ -68,154 +68,154 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: primary,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(25),
-                bottomRight: Radius.circular(25),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: primary,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(25),
+                  bottomRight: Radius.circular(25),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32.0),
+                child: Image.asset(
+                  'assets/images/logo_with_icon.png',
+                  height: 300,
+                ),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32.0),
-              child: Image.asset(
-                'assets/images/logo_with_icon.png',
-                height: 300,
-              ),
-            ),
-          ),
-          Form(
-            key: formKey,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: SingleChildScrollView(
+            Form(
+              key: formKey,
+              child: Container(
+                padding: const EdgeInsets.all(20),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 28.0),
-                      child: Text(
-                        '로그인',
-                        style: TextStyle(
-                          color: txtColor_1,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 28.0),
+                        child: Text(
+                          '로그인',
+                          style: TextStyle(
+                            color: txtColor_1,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    CustomTextFormField(
-                      hintText: '이메일 / 닉네임',
-                      obscureText: false,
-                      sufficIcon: null,
-                      onChanged: (newValue) {
-                        setState(() {
-                          email = newValue;
-                        });
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) return '닉네임을 입력하세요';
-                        return null;
-                      },
-                      onSaved: (val) {
-                        setState(() {
-                          email = val;
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 22,
-                    ),
-                    CustomTextFormField(
-                      hintText: '비밀번호',
-                      obscureText: true,
-                      sufficIcon: null,
-                      onChanged: (newValue) {
-                        setState(() {
-                          password = newValue;
-                        });
-                      },
-                      validator: (value) {
-                        String pattern =
-                            r'^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$';
-                        RegExp regExp = RegExp(pattern);
+                      CustomTextFormField(
+                        hintText: '이메일 / 닉네임',
+                        obscureText: false,
+                        sufficIcon: null,
+                        onChanged: (newValue) {
+                          setState(() {
+                            email = newValue;
+                          });
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) return '닉네임을 입력하세요';
+                          return null;
+                        },
+                        onSaved: (val) {
+                          setState(() {
+                            email = val;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 22,
+                      ),
+                      CustomTextFormField(
+                        hintText: '비밀번호',
+                        obscureText: true,
+                        sufficIcon: null,
+                        onChanged: (newValue) {
+                          setState(() {
+                            password = newValue;
+                          });
+                        },
+                        validator: (value) {
+                          String pattern =
+                              r'^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$';
+                          RegExp regExp = RegExp(pattern);
 
-                        if (value.isEmpty) {
-                          return '비밀번호를 입력하세요';
-                        } else if (value.length < 8) {
-                          return '비밀번호는 8자리 이상이어야 합니다';
-                        } else if (!regExp.hasMatch(value)) {
-                          return '특수문자, 문자, 숫자 포함 8자 이상 15자 이내로 입력하세요.';
-                        } else {
-                          return null; //null을 반환하면 정상
-                        }
-                      },
-                      onSaved: (val) {
-                        setState(() {
-                          password = val;
-                        });
-                      },
-                    ),
-                  ],
+                          if (value.isEmpty) {
+                            return '비밀번호를 입력하세요';
+                          } else if (value.length < 8) {
+                            return '비밀번호는 8자리 이상이어야 합니다';
+                          } else if (!regExp.hasMatch(value)) {
+                            return '특수문자, 문자, 숫자 포함 8자 이상 15자 이내로 입력하세요.';
+                          } else {
+                            return null; //null을 반환하면 정상
+                          }
+                        },
+                        onSaved: (val) {
+                          setState(() {
+                            password = val;
+                          });
+                        },
+                      ),
+                    ],
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: GestureDetector(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: primary,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  child: Text(
-                    '로그인',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: GestureDetector(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 15.0),
+                    child: Text(
+                      '로그인',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
+                onTap: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    login();
+                  }
+                },
               ),
-              onTap: () {
-                if (formKey.currentState!.validate()) {
-                  formKey.currentState!.save();
-                  login();
-                }
-              },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const SignInScreen(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 14.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const SignInScreen(),
+                    ),
+                  );
+                },
+                child: Text(
+                  '회원가입',
+                  style: TextStyle(
+                    color: txtColor_2,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.underline,
                   ),
-                );
-              },
-              child: Text(
-                '회원가입',
-                style: TextStyle(
-                  color: txtColor_2,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  decoration: TextDecoration.underline,
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
