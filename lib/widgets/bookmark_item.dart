@@ -86,8 +86,9 @@ class _BookMarkItemState extends State<BookMarkItem> {
         });
       },
       onTap: () {
+        //search_screen.dart에 있음.
         widget.onViewRecipe(widget.foodName); // 레시피 보기 함수 호출
-        fetchRecipe("321");
+
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
