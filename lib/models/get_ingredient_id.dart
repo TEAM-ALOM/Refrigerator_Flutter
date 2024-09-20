@@ -22,6 +22,7 @@ Future<String> getIngredientId(String ingredient) async {
     if (response.statusCode == 200) {
       // JSON 응답을 파싱
       final List<dynamic> data = json.decode(response.body);
+      print(data);
 
       if (data.isNotEmpty) {
         // 첫 번째 항목의 'id' 값을 추출

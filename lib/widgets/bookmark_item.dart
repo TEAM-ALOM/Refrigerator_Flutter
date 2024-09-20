@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import '../models/user_auth.dart';
 import 'materials_in_refri.dart';
+import 'package:http/http.dart' as http;
 
 class BookMarkItem extends StatefulWidget {
   //즐겨찾기된 레시피 위젯
-  final String imagePath; // 음식 이미지 경로
+  final String imagePath; // 레시피 아이디
   final String foodName; // 음식 이름
   final String cookingTime; // 조리시간
   final bool isMarked; // 즐겨찾기 상태
@@ -25,6 +29,39 @@ class BookMarkItem extends StatefulWidget {
   @override
   _BookMarkItemState createState() => _BookMarkItemState();
 }
+
+
+Future<void> fetchRecipe(String id) async {
+  final Uri url = Uri.parse('http://43.201.84.66:8080/api/recipe/detail/${id}');
+  String? myToken = await getAccessToken();
+
+  if (myToken == null) {
+    print('Failed to get token');
+    return;
+  }
+
+  try {
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $myToken',
+      },
+    );
+
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+      print(data);
+
+    } else {
+      print('Failed to load data: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error: ${e.toString()}');
+  }
+}
+
+
 
 class _BookMarkItemState extends State<BookMarkItem> {
   bool _isTapped = false;
@@ -50,6 +87,7 @@ class _BookMarkItemState extends State<BookMarkItem> {
       },
       onTap: () {
         widget.onViewRecipe(widget.foodName); // 레시피 보기 함수 호출
+        fetchRecipe("321");
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -73,7 +111,7 @@ class _BookMarkItemState extends State<BookMarkItem> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -84,15 +122,8 @@ class _BookMarkItemState extends State<BookMarkItem> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '조리시간: ${widget.cookingTime}',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                const SizedBox(height: 45),
+
+                                const SizedBox(height: 40),
                               ],
                             ),
                           ),
@@ -113,7 +144,7 @@ class _BookMarkItemState extends State<BookMarkItem> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 8),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(

@@ -33,7 +33,6 @@ class _AddIngredientsScreenState extends State<AddIngredientsScreen> {
           'Authorization': 'Bearer $myToken',
         },
       );
-      // print(response.body);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));

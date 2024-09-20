@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:refrigerator_frontend/models/get_recipe_details.dart';
 import 'package:refrigerator_frontend/widgets/bookmark_item.dart';
 import '../colors.dart';
 
@@ -28,6 +29,7 @@ class BookMarkScreen extends StatefulWidget {
 class _BookMarkScreenState extends State<BookMarkScreen> {
   // 레시피를 보는 함수
   void viewRecipe(String foodName) {
+    getRecipeDetails("김치볶음밥");
     print('$foodName의 레시피를 확인합니다.');
     print(isBookMarked);
     // 다른 화면으로 이동하거나 레시피 정보를 출력하는 로직 추가 가능
