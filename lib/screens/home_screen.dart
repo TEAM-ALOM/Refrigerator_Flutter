@@ -647,7 +647,7 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
                           setState(() {
                             updatedData = {
                               "ingredientId": widget.id, // 변경할 ingredientId
-                              "category": "${detail[widget.id]['category']}",
+                              "category": "${detail['category']}",
                               "quantity": 1,
                               "purchaseDate":
                                   DateFormat('yyyy-MM-dd').format(purchaseDate),
