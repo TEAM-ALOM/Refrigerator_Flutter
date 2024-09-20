@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     6: '토요일',
     7: '일요일',
   };
-  //List<String> ingredients = ['당근', '우유', '치즈', '닭', '시금치', '푸딩'];
+
   List<Map<String, dynamic>> ingredients = [];
 
   int ingredientCnt = 15;
@@ -80,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
         print('저는 데이터 에요 : #$data');
 
         // data를 Map 형태로 변환 후 리스트로 저장
-
         setState(() {
           ingredients = List<Map<String, dynamic>>.from(data.map((item) {
             return {
@@ -208,9 +207,25 @@ class BuildIngredientCard extends StatefulWidget {
 class _BuildIngredientCardState extends State<BuildIngredientCard> {
   DateTime purchaseDate = DateTime.now();
   DateTime expirationDate = DateTime.now();
-  bool isRefrigerated = false;
-  bool isFrozen = false;
 
+  Map<String, dynamic> detail = {};
+
+  var updatedData = {
+    "ingredientId": 1, // 변경할 ingredientId
+    "category": "updated category",
+    "quantity": 5,
+    "purchaseDate": "2024-09-20",
+    "expiredDate": "2024-09-30",
+    "isFrozen": false,
+    "isRefrigerated": true,
+  };
+
+  // 날짜 문자열을 DateTime 객체로 변환
+  DateTime parseDate(String dateString) {
+    return DateFormat('yyyy-MM-dd').parse(dateString);
+  }
+
+  // d-day 계산 함수
   String dDay(DateTime purchaseDate, DateTime expirationDate) {
     var difference = purchaseDate.difference(expirationDate).inDays;
     String dDay;
@@ -218,7 +233,7 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
     if (difference > 0) {
       dDay = "D-$difference";
     } else if (difference < 0) {
-      dDay = "D+$difference";
+      dDay = "D+${difference.abs()}";
     } else {
       dDay = "D-day";
     }
@@ -226,11 +241,95 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
     return dDay;
   }
 
+  // d-day 계산 함수
+  int dDaytoInt(DateTime purchaseDate, DateTime expirationDate) {
+    var difference = purchaseDate.difference(expirationDate).inDays;
+
+    print(difference);
+    return difference;
+  }
+
+  // 사용자가 추가한 재료 전체 조회
+  Future<void> getDetailUserIngredient(int ingredientId) async {
+    final Uri url = Uri.parse(
+        'http://43.201.84.66:8080/api/refrigerator/userIngredient/${ingredientId.toString()}');
+
+    String? myToken = await getAccessToken();
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $myToken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data =
+            json.decode(utf8.decode(response.bodyBytes));
+
+        // 날짜 문자열을 DateTime 객체로 변환
+        DateTime parseDate(String dateString) {
+          return DateFormat('yyyy-MM-dd').parse(dateString);
+        }
+
+        // data를 Map 형태로 변환 후 리스트로 저장
+        setState(() {
+          detail = {
+            'name': data['name'],
+            'category': data['category'],
+            'quantity': data['quantity'],
+            'purchaseDate': parseDate(data['purchaseDate']),
+            'expiredDate': parseDate(data['expiredDate']),
+            'isFrozen': data['isFrozen'],
+            'isRefrigerated': data['isRefrigerated'],
+          };
+        });
+        print('저는 detail 이에오 : $detail');
+      } else {
+        // 오류 처리
+        throw Exception('Failed to load ingredients ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  // 사용자 재료 정보 업데이트
+  Future<void> patchIngredient(
+      int ingredientId, Map<String, dynamic> updatedData) async {
+    final Uri url = Uri.parse(
+        'http://43.201.84.66:8080/api/refrigerator/userIngredient/${ingredientId.toString()}');
+
+    String? myToken = await getAccessToken();
+    try {
+      final response = await http.patch(
+        url,
+        headers: {
+          'Authorization': 'Bearer $myToken',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(updatedData), // 업데이트할 데이터
+      );
+
+      if (response.statusCode == 200) {
+        print('성공적으로 업데이트되었습니다: ${response.body}');
+      } else {
+        print('업데이트 실패: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     int dDay = purchaseDate.difference(expirationDate).inDays;
+    dDay = dDaytoInt(purchaseDate, expirationDate);
+
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        print(widget.id);
+        await getDetailUserIngredient(widget.id);
         showModal(context); // 재료 누르면 하단에서 모달 창 나오게 하는 함수 호출
       },
       child: Card(
@@ -259,9 +358,10 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
 
   // 하단 모달 창 생성 함수
   void showModal(BuildContext context) {
-    String name = '머시기';
-    String category = '저시기';
-    int cnt = 1;
+    DateTime purchaseDate = detail['purchaseDate'];
+    DateTime expirationDate = detail['expiredDate'];
+    bool isRefrigerated = detail['isRefrigerated'];
+    bool isFrozen = detail['isFrozen'];
 
     showModalBottomSheet(
       //bottom modal sheet 사용
@@ -323,7 +423,7 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '$name / $category',
+                                      '${detail['name']} / ${detail['category']}',
                                       style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
@@ -332,7 +432,7 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
                                       ),
                                     ),
                                     Text(
-                                      '$cnt마리',
+                                      '${detail['quantity']}개',
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: HexColor('#676767'),
@@ -448,7 +548,7 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
                             context: context,
                             initialDate: expirationDate,
                             firstDate: DateTime(2020),
-                            lastDate: DateTime.now(),
+                            lastDate: DateTime(2025),
                           );
                           if (selectedDate != null) {
                             setState(() {
@@ -543,7 +643,23 @@ class _BuildIngredientCardState extends State<BuildIngredientCard> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            updatedData = {
+                              "ingredientId": widget.id, // 변경할 ingredientId
+                              "category": "${detail[widget.id]['category']}",
+                              "quantity": 1,
+                              "purchaseDate":
+                                  DateFormat('yyyy-MM-dd').format(purchaseDate),
+                              "expiredDate": DateFormat('yyyy-MM-dd')
+                                  .format(expirationDate),
+                              "isFrozen": isFrozen,
+                              "isRefrigerated": isRefrigerated,
+                            };
+                            patchIngredient(widget.id, updatedData);
+                            Navigator.pop(context);
+                          });
+                        },
                         style: TextButton.styleFrom(
                           backgroundColor: primary,
                           shape: RoundedRectangleBorder(

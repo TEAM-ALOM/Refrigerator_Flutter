@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:refrigerator_frontend/models/user_auth.dart';
 import 'package:refrigerator_frontend/screens/add_ingredients_screen.dart';
@@ -7,7 +8,12 @@ import 'package:refrigerator_frontend/colors.dart';
 import 'package:refrigerator_frontend/screens/main_tab_bar.dart';
 import 'package:refrigerator_frontend/screens/login_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // 세로 방향 고정
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(const MyApp());
 }
 

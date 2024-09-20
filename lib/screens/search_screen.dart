@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/colors.dart';
+import 'package:refrigerator_frontend/models/user_auth.dart';
 import 'package:refrigerator_frontend/screens/recipe_screen.dart';
 import 'package:refrigerator_frontend/widgets/bookmark_item.dart';
+import 'package:http/http.dart' as http;
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -19,11 +23,21 @@ class _SearchScreenState extends State<SearchScreen> {
   String textContent = "";
 
   int? _value;
-  List<String> categories = ['한식', '양식', '베트남 음식', '메인 요리'];
+  List<String> categories = [
+    '한식',
+    '중국',
+    '일본',
+    '서양',
+    '퓨전',
+    '이탈리아',
+    '동남아시아',
+  ];
 
   List<String> items = List.generate(6, (index) => '김치찌개 $index'); // 음식 이름명
   List<bool> isBookMarked =
       List.generate(6, (index) => true); // 즐겨찾기 삭제 상태 관리 리스트
+  //List recipes = [];
+  List<Map<String, dynamic>> recipes = [];
 
   final List<String> imagePaths = [
     // 음식 이미지 경로 배열
@@ -33,6 +47,10 @@ class _SearchScreenState extends State<SearchScreen> {
     'assets/images/food/돼지고기 김치볶음.png',
     'assets/images/food/미역국.png',
     'assets/images/food/순두부찌개.png',
+    'assets/images/food/돼지고기 김치볶음.png',
+    'assets/images/food/돼지고기 김치볶음.png',
+    'assets/images/food/돼지고기 김치볶음.png',
+    'assets/images/food/돼지고기 김치볶음.png',
   ];
 
   @override
@@ -40,6 +58,8 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     _focusNode.addListener(_onFocusChange);
     textController = TextEditingController();
+    getAllRecipe(0);
+    //getAllRecipe(1);
   }
 
   @override
@@ -68,6 +88,63 @@ class _SearchScreenState extends State<SearchScreen> {
         builder: (BuildContext context) => const RecipeScreen(),
       ),
     );
+  }
+
+  Future<void> getAllRecipe(int page) async {
+    final Uri url = Uri.parse('http://43.201.84.66:8080/api/recipe/all/$page');
+    String? myToken = await getAccessToken();
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $myToken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // 서버에서 받아온 JSON 데이터 파싱
+        // 서버에서 받아온 바이트 데이터를 UTF-8로 변환
+        final String decodedBody = utf8.decode(response.bodyBytes);
+
+        // JSON 데이터 파싱
+        final List<dynamic> data = json.decode(decodedBody);
+        print(data);
+        setState(() {
+          // 데이터 처리
+          recipes = data.map((item) {
+            // 각 필드의 null 값 체크 및 기본값 설정
+            return {
+              'id': item['id'] ?? 0,
+              'title': item['title'] ?? '',
+              'category': item['category'] ?? '',
+              'thumbnail': item['thumbnail'] ?? '',
+              'ingredients': (item['ingredients'] as List<dynamic>? ?? [])
+                  .map((ingredient) => {
+                        'id': ingredient['id'] ?? 0,
+                        'name': ingredient['name'] ?? '',
+                        'category': ingredient['category'] ?? '',
+                        'quantity': ingredient['quantity'] ?? 0,
+                        'expirationDate': ingredient['expirationDate'] ?? '',
+                        'purchaseDate': ingredient['purchaseDate'] ?? '',
+                        'isContained': ingredient['isContained'] ?? false,
+                      })
+                  .toList(),
+            };
+          }).toList();
+          //recipes[page] = recipe;
+          print("레시피에오 : ${recipes[0]}");
+        });
+
+        // 데이터 확인
+        print(recipes);
+      } else {
+        // 오류 처리
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   @override

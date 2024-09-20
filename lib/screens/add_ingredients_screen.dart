@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:refrigerator_frontend/colors.dart';
+import 'package:refrigerator_frontend/screens/home_screen.dart';
 import 'package:refrigerator_frontend/screens/main_tab_bar.dart';
 import 'package:refrigerator_frontend/screens/search_screen.dart';
 import 'package:refrigerator_frontend/widgets/ingredients_title.dart';
@@ -85,7 +86,13 @@ class _AddIngredientsScreenState extends State<AddIngredientsScreen> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              // pop 하면 홈 화면 데이터가 로딩이 안돼서 푸쉬로 했음
+              Navigator.pushAndRemoveUntil<void>(
+                context,
+                MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const MainTabBar()),
+                (route) => false,
+              );
             },
           ),
           actions: <Widget>[
